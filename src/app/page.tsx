@@ -2,7 +2,6 @@ import Act1Problem from "@/components/scenes/Act1Problem";
 import Act2Solution from "@/components/scenes/Act2Solution";
 import BrosShowcase from "@/components/scenes/BrosShowcase";
 import BigIdea from "@/components/scenes/BigIdea";
-import SilenceFeature from "@/components/scenes/SilenceFeature";
 import Act3Scenarios from "@/components/scenes/Act3Scenarios";
 import CreatorMoment from "@/components/scenes/CreatorMoment";
 import Vision from "@/components/scenes/Vision";
@@ -33,9 +32,6 @@ export default function Home() {
 
       {/* The big idea */}
       <BigIdea />
-
-      {/* Not a chatbot — silence is a feature */}
-      <SilenceFeature />
 
       {/* Act 3 — imagine your group */}
       <Act3Scenarios />

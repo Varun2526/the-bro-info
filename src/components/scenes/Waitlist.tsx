@@ -96,11 +96,8 @@ export default function Waitlist() {
         </p>
       </motion.div>
 
-      <footer className="absolute bottom-6 text-xs text-muted/70 flex items-center gap-4">
-        <span>Bros — every group chat deserves one.</span>
-        <a href="/constitution" className="underline underline-offset-2 hover:text-paper transition">
-          Read the Constitution
-        </a>
+      <footer className="absolute bottom-6 text-xs text-muted/70">
+        Bros — every group chat deserves one.
       </footer>
     </section>
   );
