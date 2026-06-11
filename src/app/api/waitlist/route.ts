@@ -1,25 +1,4 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
-import path from "node:path";
-
-/**
- * Minimal local waitlist store: appends signups to .data/waitlist.json.
- * Swap the body of `save` for Supabase/SMS provider when ready.
- */
-const FILE = path.join(process.cwd(), ".data", "waitlist.json");
-
-async function save(phone: string) {
-  await mkdir(path.dirname(FILE), { recursive: true });
-  let entries: { phone: string; at: string }[] = [];
-  try {
-    entries = JSON.parse(await readFile(FILE, "utf8"));
-  } catch {
-    // first signup — file doesn't exist yet
-  }
-  if (!entries.some((e) => e.phone === phone)) {
-    entries.push({ phone, at: new Date().toISOString() });
-    await writeFile(FILE, JSON.stringify(entries, null, 2));
-  }
-}
+import { ensureSchema, getPool } from "@/lib/db";
 
 export async function POST(request: Request) {
   let phone: unknown;
@@ -42,6 +21,16 @@ export async function POST(request: Request) {
     return Response.json({ error: "invalid phone" }, { status: 400 });
   }
 
-  await save(normalized);
+  try {
+    await ensureSchema();
+    await getPool().query(
+      "INSERT INTO waitlist (phone) VALUES ($1) ON CONFLICT (phone) DO NOTHING",
+      [normalized]
+    );
+  } catch (err) {
+    console.error("waitlist insert failed:", err);
+    return Response.json({ error: "storage unavailable" }, { status: 503 });
+  }
+
   return Response.json({ ok: true });
 }

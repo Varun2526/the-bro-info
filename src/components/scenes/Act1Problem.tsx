@@ -158,7 +158,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
         <br />
         the group got quieter.
       </Statement>
-      <Statement p={p} enter={0.88} exit={1}>
+      <Statement p={p} enter={0.88} exit={1} hold>
         Group chats don&apos;t die because friendships end.
         <br />
         <span className="text-muted">
@@ -171,7 +171,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
 
 export default function Act1Problem() {
   return (
-    <PinnedScene height="520vh" heightDesktop="400vh">
+    <PinnedScene height="480vh" heightDesktop="340vh">
       {(p) => <Stage p={p} />}
     </PinnedScene>
   );

@@ -6,13 +6,14 @@ import Act3Scenarios from "@/components/scenes/Act3Scenarios";
 import CreatorMoment from "@/components/scenes/CreatorMoment";
 import Vision from "@/components/scenes/Vision";
 import Waitlist from "@/components/scenes/Waitlist";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
     <main className="bg-ink">
       {/* fixed wordmark */}
       <div className="fixed top-5 left-6 z-50 font-display font-bold text-lg tracking-tight">
-        Bros
+        Bro
       </div>
       <a
         href="#waitlist"
@@ -44,6 +45,8 @@ export default function Home() {
 
       {/* Conversion */}
       <Waitlist />
+
+      <Footer />
     </main>
   );
 }

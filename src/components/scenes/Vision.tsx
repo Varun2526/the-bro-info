@@ -65,7 +65,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
           It&apos;s about helping people connect.
         </span>
       </Statement>
-      <Statement p={p} enter={0.65} exit={0.97}>
+      <Statement p={p} enter={0.65} exit={1} hold>
         Every group chat
         <br />
         deserves a <span className="text-luna">Bro</span>.
@@ -76,7 +76,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
 
 export default function Vision() {
   return (
-    <PinnedScene height="400vh" heightDesktop="320vh">
+    <PinnedScene height="360vh" heightDesktop="280vh">
       {(p) => <Stage p={p} />}
     </PinnedScene>
   );

@@ -23,13 +23,10 @@ function Stage({ p }: { p: MotionValue<number> }) {
     const t = Math.min(1, Math.max(0, (v - 0.16) / 0.3));
     return `saturate(${0.3 + t * 0.7}) brightness(${0.55 + t * 0.45})`;
   });
-  const phoneIn = useRamp(p, [0, 0.04], [0, 1]);
-  const phoneOut = useRamp(p, [0.64, 0.7], [1, 0]);
-  const phoneOpacity = useTransform(
-    [phoneIn, phoneOut] as MotionValue<number>[],
-    ([a, b]) => (a as number) * (b as number)
-  );
-  const phoneScale = useRamp(p, [0, 0.04, 0.64, 0.7], [0.96, 1, 1, 0.97]);
+  // Phone is already on screen when the scene arrives — Act 1's held
+  // statement scrolls off and the dead chat is right there. No black gap.
+  const phoneOpacity = useRamp(p, [0.64, 0.7], [1, 0]);
+  const phoneScale = useRamp(p, [0.64, 0.7], [1, 0.97]);
 
   // Trouble Bro's typing dots swap into his first message in place.
   const dotsOpacity = useRamp(p, [0.12, 0.135, 0.17, 0.185], [0, 1, 1, 0]);
@@ -135,9 +132,9 @@ function Stage({ p }: { p: MotionValue<number> }) {
 
       {/* the reveal */}
       <Statement p={p} enter={0.71} exit={0.86}>
-        Meet <span className="text-luna">Bros</span>.
+        Meet <span className="text-luna">Bro</span>.
       </Statement>
-      <Statement p={p} enter={0.85} exit={1}>
+      <Statement p={p} enter={0.85} exit={1} hold>
         Personalities built
         <br />
         for group chats.
@@ -148,7 +145,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
 
 export default function Act2Solution() {
   return (
-    <PinnedScene height="480vh" heightDesktop="380vh">
+    <PinnedScene height="440vh" heightDesktop="320vh">
       {(p) => <Stage p={p} />}
     </PinnedScene>
   );

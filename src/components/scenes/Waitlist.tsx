@@ -127,9 +127,6 @@ export default function Waitlist() {
         </p>
       </motion.div>
 
-      <footer className="absolute bottom-6 text-xs text-muted/70">
-        Bros — every group chat deserves one.
-      </footer>
     </section>
   );
 }

@@ -64,11 +64,11 @@ function Stage({ p }: { p: MotionValue<number> }) {
         replace conversations.
       </Statement>
       <Statement p={p} enter={0.61} exit={0.79}>
-        Bros were built
+        Bro was built
         <br />
         to <span className="text-luna">join</span> them.
       </Statement>
-      <Statement p={p} enter={0.78} exit={1}>
+      <Statement p={p} enter={0.78} exit={1} hold>
         Because the best conversations
         <br />
         happen <em className="not-italic text-miles">together</em>.
@@ -79,7 +79,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
 
 export default function BigIdea() {
   return (
-    <PinnedScene height="450vh" heightDesktop="340vh">
+    <PinnedScene height="400vh" heightDesktop="300vh">
       {(p) => <Stage p={p} />}
     </PinnedScene>
   );

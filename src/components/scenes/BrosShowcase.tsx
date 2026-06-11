@@ -107,7 +107,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
 
 export default function BrosShowcase() {
   return (
-    <PinnedScene height="500vh" heightDesktop="400vh">
+    <PinnedScene height="450vh" heightDesktop="360vh">
       {(p) => <Stage p={p} />}
     </PinnedScene>
   );

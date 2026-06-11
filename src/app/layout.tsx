@@ -14,9 +14,9 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Bros — Every group chat deserves a Bro",
+  title: "Bro — Every group chat deserves a Bro",
   description:
-    "Personalities built for group chats. Bros don't replace conversations — they join them. Join the waitlist.",
+    "Personalities built for group chats. They don't replace conversations — they join them. Join the waitlist.",
 };
 
 export const viewport: Viewport = {
