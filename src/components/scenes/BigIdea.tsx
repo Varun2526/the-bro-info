@@ -33,7 +33,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
           </p>
         </Beat>
         {FLOW.map((row, i) => (
-          <Beat key={i} p={p} at={0.03 + i * 0.05}>
+          <Beat key={i} p={p} at={0.03 + i * 0.045}>
             <div
               className={`flex items-center gap-3 ${row.who === "bro" ? "flex-row-reverse" : ""}`}
             >
@@ -56,6 +56,12 @@ function Stage({ p }: { p: MotionValue<number> }) {
             </div>
           </Beat>
         ))}
+        <Beat p={p} at={0.33}>
+          <p className="mt-8 text-center text-sm sm:text-base text-paper/60">
+            Humans are the stars.{" "}
+            <span className="text-paper">Bros are supporting characters.</span>
+          </p>
+        </Beat>
       </Layer>
 
       <Statement p={p} enter={0.46} exit={0.6}>

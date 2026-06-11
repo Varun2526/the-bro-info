@@ -58,6 +58,9 @@ function Stage({ p }: { p: MotionValue<number> }) {
         Build a personality.
         <br />
         <span className="text-paper/60">Share it with the world.</span>
+        <span className="block mt-6 text-base sm:text-lg font-sans font-normal text-paper/50">
+          The quality test: can your friends explain your Bro in one sentence?
+        </span>
       </Statement>
     </div>
   );

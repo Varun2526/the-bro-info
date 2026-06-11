@@ -53,17 +53,24 @@ function Stage({ p }: { p: MotionValue<number> }) {
         ))}
       </div>
 
-      <Statement p={p} enter={0.16} exit={0.36}>
+      <Statement p={p} enter={0.14} exit={0.3}>
         Technology changes.
         <br />
         <span className="text-paper/60">Friendships don&apos;t.</span>
       </Statement>
-      <Statement p={p} enter={0.42} exit={0.64}>
+      <Statement p={p} enter={0.36} exit={0.52}>
         The future of AI isn&apos;t replacing people.
         <br />
         <span className="text-coach">It&apos;s helping people connect.</span>
       </Statement>
-      <Statement p={p} enter={0.7} exit={0.97}>
+      <Statement p={p} enter={0.58} exit={0.72}>
+        The bar isn&apos;t what a Bro can answer.
+        <br />
+        <span className="text-paper/60">
+          It&apos;s whether the group would miss them.
+        </span>
+      </Statement>
+      <Statement p={p} enter={0.78} exit={0.97}>
         Every group chat
         <br />
         deserves a <span className="text-luna">Bro</span>.
