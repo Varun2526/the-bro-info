@@ -7,17 +7,19 @@ import CreatorMoment from "@/components/scenes/CreatorMoment";
 import Vision from "@/components/scenes/Vision";
 import Waitlist from "@/components/scenes/Waitlist";
 import Footer from "@/components/Footer";
+import ScrollProgress from "@/components/ScrollProgress";
 
 export default function Home() {
   return (
     <main className="bg-ink">
+      <ScrollProgress />
       {/* fixed wordmark */}
       <div className="fixed top-5 left-6 z-50 font-display font-bold text-lg tracking-tight">
         Bro
       </div>
       <a
         href="#waitlist"
-        className="fixed top-4 right-5 z-50 text-xs font-semibold px-4 py-2 rounded-full border border-white/15 bg-ink/60 backdrop-blur hover:bg-white/10 transition"
+        className="fixed top-3 right-4 z-50 h-11 px-5 inline-flex items-center text-[13px] font-semibold rounded-full border border-white/15 bg-ink/60 backdrop-blur hover:bg-white/10 transition"
       >
         Join waitlist
       </a>

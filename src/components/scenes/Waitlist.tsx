@@ -1,17 +1,44 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FormEvent, useState } from "react";
+import { track } from "@vercel/analytics";
+import { FormEvent, useEffect, useState } from "react";
 import { COUNTRIES, flagOf } from "./countries";
+
+/** Hide the counter until it's a number worth bragging about. */
+const COUNTER_FLOOR = 25;
 
 export default function Waitlist() {
   const [iso, setIso] = useState("IN");
   const [number, setNumber] = useState("");
+  const [count, setCount] = useState<number | null>(null);
+  const [position, setPosition] = useState<number | null>(null);
+  const [copied, setCopied] = useState(false);
   const [state, setState] = useState<"idle" | "busy" | "done" | "error">(
     "idle"
   );
 
   const country = COUNTRIES.find((c) => c.iso === iso) ?? COUNTRIES[0];
+
+  // Default the dial code to the visitor's own country.
+  useEffect(() => {
+    const t = setTimeout(() => {
+      try {
+        const region = new Intl.Locale(navigator.language).maximize().region;
+        if (region && COUNTRIES.some((c) => c.iso === region)) setIso(region);
+      } catch {
+        // keep fallback
+      }
+    }, 0);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/waitlist")
+      .then((r) => r.json())
+      .then((d) => typeof d.count === "number" && setCount(d.count))
+      .catch(() => {});
+  }, []);
 
   async function submit(e: FormEvent) {
     e.preventDefault();
@@ -24,16 +51,44 @@ export default function Waitlist() {
         body: JSON.stringify({ phone: `${country.dial} ${number}` }),
       });
       if (!res.ok) throw new Error(String(res.status));
+      const data = await res.json();
+      if (typeof data.position === "number") setPosition(data.position);
       setState("done");
+      track("waitlist_submit");
     } catch {
       setState("error");
+      track("waitlist_error");
+    }
+  }
+
+  function shareText() {
+    return `our group chat needs this 💀 personalities that join group chats — ${window.location.origin}`;
+  }
+
+  async function share() {
+    track("waitlist_share", { method: "native" });
+    try {
+      await navigator.share({ text: shareText() });
+    } catch {
+      // user dismissed
+    }
+  }
+
+  async function copyLink() {
+    track("waitlist_share", { method: "copy" });
+    try {
+      await navigator.clipboard.writeText(window.location.origin);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // clipboard unavailable
     }
   }
 
   return (
     <section
       id="waitlist"
-      className="relative min-h-screen flex flex-col items-center justify-center px-6 text-center"
+      className="relative min-h-dvh flex flex-col items-center justify-center px-6 text-center"
     >
       {/* soft brand glow behind the CTA */}
       <div
@@ -58,13 +113,49 @@ export default function Waitlist() {
           Be among the first to invite a Bro.
         </p>
 
+        {count !== null && count >= COUNTER_FLOOR && state !== "done" && (
+          <p className="mt-6 text-sm text-luna">
+            {count.toLocaleString()} people are already waiting
+          </p>
+        )}
+
         {state === "done" ? (
           <motion.div
             initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="mt-10 text-xl sm:text-2xl font-display font-semibold text-coach"
+            className="mt-10"
           >
-            You&apos;re in. 🎉 We&apos;ll text you when it&apos;s time.
+            <div className="text-xl sm:text-2xl font-display font-semibold text-coach">
+              You&apos;re in{position !== null ? ` — #${position.toLocaleString()} on the list` : ""}. 🎉
+            </div>
+            <p className="mt-3 text-sm text-paper/60">
+              Bros work best with your whole group. Bring them.
+            </p>
+            <div className="mt-5 flex flex-col sm:flex-row gap-3 justify-center">
+              <a
+                href={`https://wa.me/?text=${encodeURIComponent(shareText())}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => track("waitlist_share", { method: "whatsapp" })}
+                className="h-11 px-6 rounded-full font-semibold text-ink text-sm bg-coach hover:opacity-90 transition inline-flex items-center justify-center"
+              >
+                Share on WhatsApp
+              </a>
+              {typeof navigator !== "undefined" && "share" in navigator ? (
+                <button
+                  onClick={share}
+                  className="h-11 px-6 rounded-full font-semibold text-sm border border-white/20 hover:bg-white/10 transition cursor-pointer"
+                >
+                  Share…
+                </button>
+              ) : null}
+              <button
+                onClick={copyLink}
+                className="h-11 px-6 rounded-full font-semibold text-sm border border-white/20 hover:bg-white/10 transition cursor-pointer"
+              >
+                {copied ? "Copied ✓" : "Copy link"}
+              </button>
+            </div>
           </motion.div>
         ) : (
           <form
@@ -122,11 +213,13 @@ export default function Waitlist() {
           </p>
         )}
 
-        <p className="mt-6 text-sm text-muted">
-          Founding members get early access.
-        </p>
+        {state !== "done" && (
+          <p className="mt-6 text-sm text-muted">
+            Founding members get early access. One text when it&apos;s your
+            turn — never shared, never spam.
+          </p>
+        )}
       </motion.div>
-
     </section>
   );
 }

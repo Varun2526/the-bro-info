@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, MotionValue, useTransform } from "framer-motion";
+import { track } from "@vercel/analytics";
 import {
   PinnedScene,
   Beat,
@@ -139,7 +140,28 @@ function Stage({ p }: { p: MotionValue<number> }) {
         <br />
         for group chats.
       </Statement>
+      <MidCta p={p} />
     </div>
+  );
+}
+
+/** Convinced already? Don't make people scroll 13 more screens. */
+function MidCta({ p }: { p: MotionValue<number> }) {
+  const opacity = useRamp(p, [0.92, 0.96], [0, 1]);
+  const pointerEvents = useTransform(p, (v) => (v > 0.92 ? "auto" : "none"));
+  return (
+    <motion.div
+      className="absolute inset-x-0 bottom-[14vh] flex justify-center"
+      style={{ opacity, pointerEvents }}
+    >
+      <a
+        href="#waitlist"
+        onClick={() => track("cta_mid_click", { where: "act2" })}
+        className="h-11 px-6 rounded-full text-sm font-semibold border border-white/20 hover:bg-white/10 transition inline-flex items-center"
+      >
+        Join the waitlist →
+      </a>
+    </motion.div>
   );
 }
 

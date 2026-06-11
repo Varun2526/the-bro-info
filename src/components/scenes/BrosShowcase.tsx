@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { motion, MotionValue, useTransform } from "framer-motion";
+import { track } from "@vercel/analytics";
 import { PinnedScene, useRamp } from "@/components/scroll/Scrub";
 import { BROS, Bro } from "@/components/chat/cast";
 
@@ -98,9 +99,36 @@ function Stage({ p }: { p: MotionValue<number> }) {
         </motion.div>
       </div>
 
-      <p className="px-6 sm:px-12 text-sm text-muted">
+      <RailFootnote p={p} />
+    </div>
+  );
+}
+
+/** "Keep scrolling" hint that becomes a CTA once the rail is explored. */
+function RailFootnote({ p }: { p: MotionValue<number> }) {
+  const hintOpacity = useRamp(p, [0.72, 0.8], [1, 0]);
+  const ctaOpacity = useRamp(p, [0.82, 0.88], [0, 1]);
+  const ctaPointer = useTransform(p, (v) => (v > 0.82 ? "auto" : "none"));
+  return (
+    <div className="relative h-11 px-6 sm:px-12">
+      <motion.p
+        className="absolute inset-x-6 sm:inset-x-12 top-1/2 -translate-y-1/2 text-sm text-muted"
+        style={{ opacity: hintOpacity }}
+      >
         Keep scrolling to meet them all →
-      </p>
+      </motion.p>
+      <motion.div
+        className="absolute inset-x-6 sm:inset-x-12 top-0"
+        style={{ opacity: ctaOpacity, pointerEvents: ctaPointer }}
+      >
+        <a
+          href="#waitlist"
+          onClick={() => track("cta_mid_click", { where: "showcase" })}
+          className="h-11 px-6 rounded-full text-sm font-semibold border border-white/20 hover:bg-white/10 transition inline-flex items-center"
+        >
+          Found your group&apos;s Bro? Join the waitlist →
+        </a>
+      </motion.div>
     </div>
   );
 }

@@ -55,7 +55,7 @@ const SECTIONS: { title: string; body: string[] }[] = [
   {
     title: "8. Contact",
     body: [
-      "Questions about these Terms? Reach out through the contact details on our website.",
+      "Questions about these Terms? Email us at bhanu@extendime.com.",
     ],
   },
 ];

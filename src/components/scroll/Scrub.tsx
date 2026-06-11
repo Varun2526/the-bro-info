@@ -70,7 +70,8 @@ export function PinnedScene({
         } as React.CSSProperties
       }
     >
-      <div className="sticky top-0 h-screen overflow-hidden">
+      {/* dvh: 100vh lies on iOS Safari when the URL bar collapses */}
+      <div className="sticky top-0 h-dvh overflow-hidden">
         {children(scrollYProgress)}
       </div>
     </section>

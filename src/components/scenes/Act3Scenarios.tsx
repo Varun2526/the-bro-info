@@ -12,20 +12,6 @@ type Scenario = {
 
 const SCENARIOS: Scenario[] = [
   {
-    emoji: "🎮",
-    title: "The gaming squad",
-    lines: [
-      { from: "Dev", color: "#30d158", text: "we got DESTROYED tonight" },
-      {
-        from: "Spidy Bro",
-        color: "#22d3ee",
-        bro: true,
-        text: "skill issue. also the clip is already a meme, check the group icon",
-      },
-      { from: "Jay", color: "#4d9fff", text: "NOT THE GROUP ICON 😭" },
-    ],
-  },
-  {
     emoji: "🏈",
     title: "The fantasy league",
     lines: [
@@ -67,20 +53,6 @@ const SCENARIOS: Scenario[] = [
         text: "day 3 summary: 47 links shared, 0 links opened.",
       },
       { from: "Maya", color: "#ff7ab6", text: "he's right and he should say it 💀" },
-    ],
-  },
-  {
-    emoji: "☕",
-    title: "The weekend crew",
-    lines: [
-      { from: "Jay", color: "#4d9fff", text: "so… plans or are we lying again" },
-      {
-        from: "Sicker Bava",
-        color: "#ffd60a",
-        bro: true,
-        text: "I have a sticker for this exact situation. sending it. you know the one.",
-      },
-      { from: "Jay", color: "#4d9fff", text: "😂😂 fine. brunch. 11am." },
     ],
   },
 ];

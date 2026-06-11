@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 export default function Footer() {
   return (
@@ -11,6 +12,9 @@ export default function Footer() {
           <p className="mt-2 text-sm text-muted max-w-xs">
             Personalities built for group chats. They don&apos;t replace
             conversations — they join them.
+          </p>
+          <p className="mt-3 text-sm text-paper/50">
+            Built by a small team that lost too many group chats.
           </p>
         </div>
 
@@ -27,6 +31,21 @@ export default function Footer() {
                 >
                   Join the waitlist
                 </Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div className="text-xs uppercase tracking-[0.2em] text-muted mb-3">
+              Contact
+            </div>
+            <ul className="flex flex-col gap-2 text-sm">
+              <li>
+                <a
+                  href={`mailto:${CONTACT_EMAIL}`}
+                  className="text-paper/70 hover:text-paper transition"
+                >
+                  {CONTACT_EMAIL}
+                </a>
               </li>
             </ul>
           </div>

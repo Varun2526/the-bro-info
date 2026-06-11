@@ -34,6 +34,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
   const phoneOpacity = useRamp(p, [0.68, 0.73], [1, 0]);
   const phoneScale = useRamp(p, [0.68, 0.73], [1, 0.96]);
   const hintOpacity = useRamp(p, [0, 0.03], [1, 0]);
+  const valueOpacity = useRamp(p, [0.02, 0.06], [1, 0]);
 
   return (
     <div className="h-full flex items-center justify-center">
@@ -141,6 +142,19 @@ function Stage({ p }: { p: MotionValue<number> }) {
             </Beat>
           </Layer>
         </PhoneFrame>
+      </motion.div>
+
+      {/* first-screen value proposition — fades as the story takes over */}
+      <motion.div
+        className="absolute top-16 sm:top-[7vh] inset-x-0 text-center px-6 z-10"
+        style={{ opacity: valueOpacity }}
+      >
+        <h1 className="font-display text-lg sm:text-2xl lg:text-3xl font-semibold tracking-tight text-balance">
+          Personalities that join your group chat.
+        </h1>
+        <p className="mt-1 text-xs sm:text-sm text-muted">
+          This is the story of every group chat. Scroll.
+        </p>
       </motion.div>
 
       {/* scroll hint */}
