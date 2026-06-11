@@ -87,6 +87,20 @@ export function MemeBubble({ emoji, label }: { emoji: string; label: string }) {
   );
 }
 
+export function TypingDots() {
+  return (
+    <div className="flex items-center gap-1 px-0.5 py-1.5">
+      {[0, 1, 2].map((i) => (
+        <span
+          key={i}
+          className="w-1.5 h-1.5 rounded-full bg-white/50 animate-pulse"
+          style={{ animationDelay: `${i * 180}ms` }}
+        />
+      ))}
+    </div>
+  );
+}
+
 export function Timestamp({ children }: { children: ReactNode }) {
   return (
     <div className="text-center text-[10.5px] text-muted/80 font-medium py-1.5">

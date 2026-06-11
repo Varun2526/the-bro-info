@@ -93,7 +93,10 @@ export function Beat({
   );
 }
 
-/** A full-screen layer visible only during [enter, exit] on the timeline. */
+/**
+ * A full-screen layer visible only during [enter, exit] on the timeline.
+ * `enter < 0` means "visible from the very start" (no fade-in).
+ */
 export function Layer({
   p,
   enter,
@@ -111,8 +114,10 @@ export function Layer({
 }) {
   const opacity = useRamp(
     p,
-    [enter, enter + fade, exit - fade, exit],
-    [0, 1, 1, 0]
+    enter < 0
+      ? [exit - fade, exit]
+      : [enter, enter + fade, exit - fade, exit],
+    enter < 0 ? [1, 0] : [0, 1, 1, 0]
   );
   return (
     <motion.div className={`absolute inset-0 ${className}`} style={{ opacity }}>

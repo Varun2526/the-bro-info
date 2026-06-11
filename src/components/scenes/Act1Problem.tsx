@@ -16,13 +16,14 @@ import {
   Timestamp,
 } from "@/components/chat/ChatBubble";
 
-const JAY = { name: "Jay", color: "#4d9fff" };
-const SAM = { name: "Sam", color: "#ffd60a" };
-const MAYA = { name: "Maya", color: "#ff7ab6" };
-const DEV = { name: "Dev", color: "#30d158" };
-const ZOE = { name: "Zoe", color: "#bf8cff" };
-
-const MEMBERS = [JAY, SAM, MAYA, DEV, ZOE];
+import {
+  JAY,
+  SAM,
+  MAYA,
+  DEV,
+  ZOE,
+  MEMBERS,
+} from "@/components/chat/cast";
 
 function Stage({ p }: { p: MotionValue<number> }) {
   // The chat dims and desaturates as the group goes quiet, then fades out.
@@ -41,7 +42,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
       >
         <PhoneFrame groupName="the squad 🏀" members={MEMBERS} memberCount={8}>
           {/* Batch 1 — peak energy */}
-          <Layer p={p} enter={0.0} exit={0.22} fade={0.015} className="flex flex-col justify-end gap-1.5 pb-3">
+          <Layer p={p} enter={-1} exit={0.22} fade={0.015} className="flex flex-col justify-end gap-1.5 pb-3">
             {/* already on screen when the page loads — the group feels alive instantly */}
             <Beat p={p} at={-1}>
               <Timestamp>Friday 7:42 PM</Timestamp>

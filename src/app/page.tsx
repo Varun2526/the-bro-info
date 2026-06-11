@@ -1,4 +1,5 @@
 import Act1Problem from "@/components/scenes/Act1Problem";
+import Act2Solution from "@/components/scenes/Act2Solution";
 
 export default function Home() {
   return (
@@ -9,8 +10,9 @@ export default function Home() {
       </div>
 
       <Act1Problem />
+      <Act2Solution />
 
-      {/* Act 2 and beyond land here next */}
+      {/* Bros showcase and beyond land here next */}
       <section className="h-screen" />
     </main>
   );
