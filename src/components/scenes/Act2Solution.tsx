@@ -15,10 +15,10 @@ import {
   TypingDots,
   SystemNote,
 } from "@/components/chat/ChatBubble";
-import { JAY, SAM, MAYA, DEV, ZOE, MEMBERS, ROCKY } from "@/components/chat/cast";
+import { JAY, SAM, MAYA, DEV, ZOE, MEMBERS, TROUBLE } from "@/components/chat/cast";
 
 function Stage({ p }: { p: MotionValue<number> }) {
-  // Color floods back into the chat as Rocky revives it.
+  // Color floods back into the chat as Trouble Bro revives it.
   const phoneFilter = useTransform(p, (v) => {
     const t = Math.min(1, Math.max(0, (v - 0.16) / 0.3));
     return `saturate(${0.3 + t * 0.7}) brightness(${0.55 + t * 0.45})`;
@@ -31,7 +31,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
   );
   const phoneScale = useRamp(p, [0, 0.04, 0.64, 0.7], [0.96, 1, 1, 0.97]);
 
-  // Rocky's typing dots swap into his first message in place.
+  // Trouble Bro's typing dots swap into his first message in place.
   const dotsOpacity = useRamp(p, [0.12, 0.135, 0.17, 0.185], [0, 1, 1, 0]);
   const openerOpacity = useRamp(p, [0.185, 0.2], [0, 1]);
   const openerY = useRamp(p, [0.185, 0.2], [10, 0]);
@@ -42,7 +42,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
         style={{ opacity: phoneOpacity, scale: phoneScale, filter: phoneFilter }}
       >
         <PhoneFrame groupName="the squad 🏀" members={MEMBERS} memberCount={8}>
-          {/* The dead chat, then Rocky arrives */}
+          {/* The dead chat, then Trouble Bro arrives */}
           <Layer p={p} enter={-1} exit={0.34} fade={0.01} className="flex flex-col justify-end gap-1.5 pb-3">
             <Beat p={p} at={-1}>
               <Timestamp>1 month later</Timestamp>
@@ -58,8 +58,8 @@ function Stage({ p }: { p: MotionValue<number> }) {
 
             <Beat p={p} at={0.07} y={8}>
               <SystemNote>
-                <span className="px-3 py-1 rounded-full bg-rocky/15 text-rocky font-medium">
-                  🔥 Rocky joined the group
+                <span className="px-3 py-1 rounded-full bg-luna/15 text-luna font-medium">
+                  ⚡ Trouble Bro joined the group
                 </span>
               </SystemNote>
             </Beat>
@@ -70,7 +70,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
                 className="col-start-1 row-start-1 self-end"
                 style={{ opacity: dotsOpacity }}
               >
-                <ChatBubble sender={ROCKY}>
+                <ChatBubble sender={TROUBLE}>
                   <TypingDots />
                 </ChatBubble>
               </motion.div>
@@ -78,7 +78,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
                 className="col-start-1 row-start-1 self-end"
                 style={{ opacity: openerOpacity, y: openerY }}
               >
-                <ChatBubble sender={ROCKY}>
+                <ChatBubble sender={TROUBLE}>
                   this group has more members than conversations 💀
                 </ChatBubble>
               </motion.div>
@@ -106,7 +106,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
               <ChatBubble sender={MAYA}>ok I&apos;m awake 😂</ChatBubble>
             </Beat>
             <Beat p={p} at={0.425}>
-              <ChatBubble sender={ROCKY} reactions="🔥 6">
+              <ChatBubble sender={TROUBLE} reactions="🔥 6">
                 movie night. friday. I&apos;m picking. be scared.
               </ChatBubble>
             </Beat>
@@ -127,7 +127,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
 
       {/* the reveal */}
       <Statement p={p} enter={0.72} exit={0.84}>
-        Meet <span className="text-rocky">Bros</span>.
+        Meet <span className="text-luna">Bros</span>.
       </Statement>
       <Statement p={p} enter={0.87} exit={1}>
         Personalities built
