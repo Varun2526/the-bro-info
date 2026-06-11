@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { FormEvent, useState } from "react";
 
 export default function Waitlist() {
-  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [state, setState] = useState<"idle" | "busy" | "done" | "error">(
     "idle"
   );
@@ -17,7 +17,7 @@ export default function Waitlist() {
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ phone }),
       });
       if (!res.ok) throw new Error(String(res.status));
       setState("done");
@@ -60,7 +60,7 @@ export default function Waitlist() {
             animate={{ opacity: 1, scale: 1 }}
             className="mt-10 text-xl sm:text-2xl font-display font-semibold text-coach"
           >
-            You&apos;re in. 🎉 Watch your inbox.
+            You&apos;re in. 🎉 We&apos;ll text you when it&apos;s time.
           </motion.div>
         ) : (
           <form
@@ -68,11 +68,13 @@ export default function Waitlist() {
             className="mt-10 flex flex-col sm:flex-row gap-3 justify-center"
           >
             <input
-              type="email"
+              type="tel"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@email.com"
+              inputMode="tel"
+              autoComplete="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="+91 98765 43210"
               className="h-13 px-5 rounded-full bg-white/6 border border-white/12 text-paper placeholder:text-muted outline-none focus:border-luna/60 w-full sm:w-80 text-[15px]"
             />
             <button
@@ -87,7 +89,7 @@ export default function Waitlist() {
 
         {state === "error" && (
           <p className="mt-4 text-sm text-rocky">
-            Something went wrong — try again in a moment.
+            That number didn&apos;t work — check it and try again.
           </p>
         )}
 

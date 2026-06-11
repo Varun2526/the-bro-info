@@ -53,17 +53,17 @@ function Stage({ p }: { p: MotionValue<number> }) {
         ))}
       </div>
 
-      <Statement p={p} enter={0.16} exit={0.36}>
+      <Statement p={p} enter={0.14} exit={0.4}>
         Technology changes.
         <br />
         <span className="text-paper/60">Friendships don&apos;t.</span>
       </Statement>
-      <Statement p={p} enter={0.42} exit={0.64}>
+      <Statement p={p} enter={0.39} exit={0.66}>
         The future of AI isn&apos;t replacing people.
         <br />
         <span className="text-coach">It&apos;s helping people connect.</span>
       </Statement>
-      <Statement p={p} enter={0.7} exit={0.97}>
+      <Statement p={p} enter={0.65} exit={0.97}>
         Every group chat
         <br />
         deserves a <span className="text-luna">Bro</span>.
@@ -74,6 +74,8 @@ function Stage({ p }: { p: MotionValue<number> }) {
 
 export default function Vision() {
   return (
-    <PinnedScene height="400vh">{(p) => <Stage p={p} />}</PinnedScene>
+    <PinnedScene height="400vh" heightDesktop="320vh">
+      {(p) => <Stage p={p} />}
+    </PinnedScene>
   );
 }

@@ -42,10 +42,14 @@ export function useRamp(
  */
 export function PinnedScene({
   height = "400vh",
+  heightDesktop,
   className = "",
   children,
 }: {
   height?: string;
+  /** Wheel scrolling covers distance slower than thumb flicks, so
+   *  desktop scenes should be shorter than mobile ones. */
+  heightDesktop?: string;
   className?: string;
   children: (progress: MotionValue<number>) => ReactNode;
 }) {
@@ -56,7 +60,16 @@ export function PinnedScene({
   });
 
   return (
-    <section ref={ref} className={`relative ${className}`} style={{ height }}>
+    <section
+      ref={ref}
+      className={`relative h-[var(--scene-h)] lg:h-[var(--scene-h-lg)] ${className}`}
+      style={
+        {
+          "--scene-h": height,
+          "--scene-h-lg": heightDesktop ?? height,
+        } as React.CSSProperties
+      }
+    >
       <div className="sticky top-0 h-screen overflow-hidden">
         {children(scrollYProgress)}
       </div>

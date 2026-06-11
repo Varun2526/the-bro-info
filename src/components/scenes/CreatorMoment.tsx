@@ -54,7 +54,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
         </div>
       </Layer>
 
-      <Statement p={p} enter={0.68} exit={1}>
+      <Statement p={p} enter={0.64} exit={1}>
         Build a personality.
         <br />
         <span className="text-paper/60">Share it with the world.</span>
@@ -65,6 +65,8 @@ function Stage({ p }: { p: MotionValue<number> }) {
 
 export default function CreatorMoment() {
   return (
-    <PinnedScene height="350vh">{(p) => <Stage p={p} />}</PinnedScene>
+    <PinnedScene height="350vh" heightDesktop="280vh">
+      {(p) => <Stage p={p} />}
+    </PinnedScene>
   );
 }

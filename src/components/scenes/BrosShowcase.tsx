@@ -67,7 +67,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
   }, []);
 
   const x = useTransform(p, (v) => {
-    const t = Math.min(1, Math.max(0, (v - 0.12) / 0.83));
+    const t = Math.min(1, Math.max(0, (v - 0.06) / 0.9));
     return -t * shift;
   });
   const titleOpacity = useRamp(p, [0, 0.04], [0, 1]);
@@ -107,6 +107,8 @@ function Stage({ p }: { p: MotionValue<number> }) {
 
 export default function BrosShowcase() {
   return (
-    <PinnedScene height="500vh">{(p) => <Stage p={p} />}</PinnedScene>
+    <PinnedScene height="500vh" heightDesktop="400vh">
+      {(p) => <Stage p={p} />}
+    </PinnedScene>
   );
 }

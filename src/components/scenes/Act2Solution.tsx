@@ -38,6 +38,14 @@ function Stage({ p }: { p: MotionValue<number> }) {
 
   return (
     <div className="h-full flex items-center justify-center">
+      {/* warm stage light returns with the revival */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 55% 45% at 50% 50%, rgba(191,140,255,0.05), transparent 70%)",
+        }}
+      />
       <motion.div
         style={{ opacity: phoneOpacity, scale: phoneScale, filter: phoneFilter }}
       >
@@ -126,10 +134,10 @@ function Stage({ p }: { p: MotionValue<number> }) {
       </motion.div>
 
       {/* the reveal */}
-      <Statement p={p} enter={0.72} exit={0.84}>
+      <Statement p={p} enter={0.71} exit={0.86}>
         Meet <span className="text-luna">Bros</span>.
       </Statement>
-      <Statement p={p} enter={0.87} exit={1}>
+      <Statement p={p} enter={0.85} exit={1}>
         Personalities built
         <br />
         for group chats.
@@ -140,6 +148,8 @@ function Stage({ p }: { p: MotionValue<number> }) {
 
 export default function Act2Solution() {
   return (
-    <PinnedScene height="480vh">{(p) => <Stage p={p} />}</PinnedScene>
+    <PinnedScene height="480vh" heightDesktop="380vh">
+      {(p) => <Stage p={p} />}
+    </PinnedScene>
   );
 }

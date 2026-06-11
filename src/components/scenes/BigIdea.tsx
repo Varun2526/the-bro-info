@@ -58,17 +58,17 @@ function Stage({ p }: { p: MotionValue<number> }) {
         ))}
       </Layer>
 
-      <Statement p={p} enter={0.46} exit={0.6}>
+      <Statement p={p} enter={0.45} exit={0.62}>
         <span className="text-muted">AI was designed to</span>
         <br />
         replace conversations.
       </Statement>
-      <Statement p={p} enter={0.64} exit={0.78}>
+      <Statement p={p} enter={0.61} exit={0.79}>
         Bros was designed
         <br />
         to <span className="text-luna">join</span> them.
       </Statement>
-      <Statement p={p} enter={0.82} exit={1}>
+      <Statement p={p} enter={0.78} exit={1}>
         Because the best conversations
         <br />
         happen <em className="not-italic text-miles">together</em>.
@@ -79,6 +79,8 @@ function Stage({ p }: { p: MotionValue<number> }) {
 
 export default function BigIdea() {
   return (
-    <PinnedScene height="450vh">{(p) => <Stage p={p} />}</PinnedScene>
+    <PinnedScene height="450vh" heightDesktop="340vh">
+      {(p) => <Stage p={p} />}
+    </PinnedScene>
   );
 }

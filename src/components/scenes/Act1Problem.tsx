@@ -37,6 +37,14 @@ function Stage({ p }: { p: MotionValue<number> }) {
 
   return (
     <div className="h-full flex items-center justify-center">
+      {/* ambient stage light so the phone never floats in a void */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 55% 45% at 50% 50%, rgba(255,255,255,0.045), transparent 70%)",
+        }}
+      />
       <motion.div
         style={{ opacity: phoneOpacity, scale: phoneScale, filter: phoneFilter }}
       >
@@ -145,12 +153,12 @@ function Stage({ p }: { p: MotionValue<number> }) {
       </motion.div>
 
       {/* closing statements */}
-      <Statement p={p} enter={0.76} exit={0.86}>
+      <Statement p={p} enter={0.74} exit={0.89}>
         Somewhere along the way,
         <br />
         the group got quieter.
       </Statement>
-      <Statement p={p} enter={0.89} exit={1}>
+      <Statement p={p} enter={0.88} exit={1}>
         Group chats don&apos;t die because friendships end.
         <br />
         <span className="text-muted">
@@ -163,6 +171,8 @@ function Stage({ p }: { p: MotionValue<number> }) {
 
 export default function Act1Problem() {
   return (
-    <PinnedScene height="520vh">{(p) => <Stage p={p} />}</PinnedScene>
+    <PinnedScene height="520vh" heightDesktop="400vh">
+      {(p) => <Stage p={p} />}
+    </PinnedScene>
   );
 }
