@@ -59,12 +59,12 @@ function Stage({ p }: { p: MotionValue<number> }) {
       </Layer>
 
       <Statement p={p} enter={0.45} exit={0.62}>
-        <span className="text-muted">AI was designed to</span>
+        <span className="text-muted">Technology was built to</span>
         <br />
         replace conversations.
       </Statement>
       <Statement p={p} enter={0.61} exit={0.79}>
-        Bros was designed
+        Bros were built
         <br />
         to <span className="text-luna">join</span> them.
       </Statement>

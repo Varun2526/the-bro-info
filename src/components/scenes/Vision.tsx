@@ -59,9 +59,11 @@ function Stage({ p }: { p: MotionValue<number> }) {
         <span className="text-paper/60">Friendships don&apos;t.</span>
       </Statement>
       <Statement p={p} enter={0.39} exit={0.66}>
-        The future of AI isn&apos;t replacing people.
+        The future isn&apos;t about replacing people.
         <br />
-        <span className="text-coach">It&apos;s helping people connect.</span>
+        <span className="text-coach">
+          It&apos;s about helping people connect.
+        </span>
       </Statement>
       <Statement p={p} enter={0.65} exit={0.97}>
         Every group chat

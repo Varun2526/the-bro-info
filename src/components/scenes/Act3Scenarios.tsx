@@ -147,7 +147,7 @@ export default function Act3Scenarios() {
         className="mb-20 sm:mb-28 text-center"
       >
         <p className="text-xs uppercase tracking-[0.25em] text-muted mb-3">
-          Act 3
+          Imagine yours
         </p>
         <h2 className="font-display text-3xl sm:text-5xl font-semibold tracking-tight text-balance">
           Your group already needs one.

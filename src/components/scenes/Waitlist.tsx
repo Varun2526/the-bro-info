@@ -2,12 +2,16 @@
 
 import { motion } from "framer-motion";
 import { FormEvent, useState } from "react";
+import { COUNTRIES, flagOf } from "./countries";
 
 export default function Waitlist() {
-  const [phone, setPhone] = useState("");
+  const [iso, setIso] = useState("IN");
+  const [number, setNumber] = useState("");
   const [state, setState] = useState<"idle" | "busy" | "done" | "error">(
     "idle"
   );
+
+  const country = COUNTRIES.find((c) => c.iso === iso) ?? COUNTRIES[0];
 
   async function submit(e: FormEvent) {
     e.preventDefault();
@@ -17,7 +21,7 @@ export default function Waitlist() {
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone }),
+        body: JSON.stringify({ phone: `${country.dial} ${number}` }),
       });
       if (!res.ok) throw new Error(String(res.status));
       setState("done");
@@ -65,18 +69,43 @@ export default function Waitlist() {
         ) : (
           <form
             onSubmit={submit}
-            className="mt-10 flex flex-col sm:flex-row gap-3 justify-center"
+            className="mt-10 flex flex-col sm:flex-row gap-3 justify-center items-stretch"
           >
-            <input
-              type="tel"
-              required
-              inputMode="tel"
-              autoComplete="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="+91 98765 43210"
-              className="h-13 px-5 rounded-full bg-white/6 border border-white/12 text-paper placeholder:text-muted outline-none focus:border-luna/60 w-full sm:w-80 text-[15px]"
-            />
+            <div className="flex h-13 rounded-full bg-white/6 border border-white/12 focus-within:border-luna/60 overflow-hidden w-full sm:w-96">
+              <div className="relative flex items-center border-r border-white/10 shrink-0">
+                <span className="pl-4 pr-1 text-[15px] pointer-events-none">
+                  {flagOf(country.iso)}
+                </span>
+                <span className="pr-7 text-[14px] text-paper/80 pointer-events-none">
+                  {country.dial}
+                </span>
+                <span className="absolute right-2.5 text-[9px] text-muted pointer-events-none">
+                  ▼
+                </span>
+                <select
+                  aria-label="Country code"
+                  value={iso}
+                  onChange={(e) => setIso(e.target.value)}
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                >
+                  {COUNTRIES.map((c) => (
+                    <option key={c.iso} value={c.iso}>
+                      {flagOf(c.iso)} {c.name} ({c.dial})
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <input
+                type="tel"
+                required
+                inputMode="tel"
+                autoComplete="tel-national"
+                value={number}
+                onChange={(e) => setNumber(e.target.value)}
+                placeholder="Phone number"
+                className="flex-1 min-w-0 px-4 bg-transparent text-paper placeholder:text-muted outline-none text-[15px]"
+              />
+            </div>
             <button
               type="submit"
               disabled={state === "busy"}
