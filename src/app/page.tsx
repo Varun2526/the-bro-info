@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import Act1Problem from "@/components/scenes/Act1Problem";
 import Act2Solution from "@/components/scenes/Act2Solution";
 import ScrollProgress from "@/components/ScrollProgress";
+import StickyCta from "@/components/StickyCta";
 
 /* Below-the-fold scenes are code-split: they keep SSR (the HTML is in
    the initial response for SEO) but their JS loads in separate chunks,
@@ -25,6 +26,7 @@ export default function Home() {
         Skip to waitlist
       </a>
       <ScrollProgress />
+      <StickyCta />
       {/* fixed wordmark */}
       <div className="fixed top-5 left-6 z-50 font-display font-bold text-lg tracking-tight">
         Bro<span className="text-brand">.</span>

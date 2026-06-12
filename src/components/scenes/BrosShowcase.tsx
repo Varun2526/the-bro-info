@@ -2,17 +2,39 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { motion, MotionValue, useTransform } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  MotionValue,
+  useTransform,
+} from "framer-motion";
 import { track } from "@vercel/analytics";
 import { PinnedScene, useRamp } from "@/components/scroll/Scrub";
 import { BROS, Bro } from "@/components/chat/cast";
 
+/** Hover (or tap) a card and the Bro answers — you meet a personality,
+ *  you don't read a spec sheet. */
 function BroCard({ bro }: { bro: Bro }) {
+  const [phase, setPhase] = useState<"idle" | "typing" | "reply">("idle");
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function engage() {
+    if (phase !== "idle") return;
+    track("bro_card_engage", { bro: bro.id });
+    setPhase("typing");
+    timer.current = setTimeout(() => setPhase("reply"), 700);
+  }
+  useEffect(() => () => {
+    if (timer.current) clearTimeout(timer.current);
+  }, []);
+
   return (
     <motion.div
       whileHover={{ scale: 1.03, rotate: -1.2 }}
       transition={{ type: "spring", stiffness: 260, damping: 20 }}
-      className="relative shrink-0 w-[min(78vw,320px)] rounded-3xl border border-white/10 bg-white/[0.03] overflow-hidden flex flex-col"
+      onHoverStart={engage}
+      onTap={engage}
+      className="relative shrink-0 w-[min(78vw,320px)] rounded-3xl border border-white/10 bg-white/[0.03] overflow-hidden flex flex-col cursor-pointer"
     >
       {/* signature glow */}
       <div
@@ -40,6 +62,50 @@ function BroCard({ bro }: { bro: Bro }) {
         <p className="text-sm text-paper/60 mt-1 min-h-10">{bro.vibe}</p>
         <div className="mt-3 px-3 py-2 rounded-2xl rounded-bl-md bg-white/8 text-[13px] leading-snug">
           {bro.line}
+        </div>
+        {/* the conversation continues when you engage */}
+        <div className="mt-2 h-11">
+          <AnimatePresence mode="wait">
+            {phase === "typing" && (
+              <motion.div
+                key="typing"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-2xl rounded-bl-md"
+                style={{ background: `${bro.color}1f`, border: `1px solid ${bro.color}40` }}
+              >
+                {[0, 1, 2].map((i) => (
+                  <span
+                    key={i}
+                    className="w-1.5 h-1.5 rounded-full bg-white/60 animate-pulse"
+                    style={{ animationDelay: `${i * 160}ms` }}
+                  />
+                ))}
+              </motion.div>
+            )}
+            {phase === "reply" && (
+              <motion.div
+                key="reply"
+                initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ type: "spring", stiffness: 400, damping: 26 }}
+                className="inline-block px-3 py-2 rounded-2xl rounded-bl-md text-[13px] leading-snug"
+                style={{ background: `${bro.color}1f`, border: `1px solid ${bro.color}40` }}
+              >
+                {bro.reply}
+              </motion.div>
+            )}
+            {phase === "idle" && (
+              <motion.p
+                key="hint"
+                exit={{ opacity: 0 }}
+                className="text-[11px] text-muted/70 pt-2"
+              >
+                hover to see what happens →
+              </motion.p>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </motion.div>

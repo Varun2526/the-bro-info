@@ -1,12 +1,29 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { animate, motion, useInView } from "framer-motion";
 import { track } from "@vercel/analytics";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { COUNTRIES, flagOf } from "./countries";
 
-/** Hide the counter until it's a number worth bragging about. */
+/** Below this, show "founding circle" framing instead of a raw count. */
 const COUNTER_FLOOR = 25;
+
+/** Animated number — proof should feel alive, not printed. */
+function CountUp({ value }: { value: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true });
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    if (!inView) return;
+    const controls = animate(0, value, {
+      duration: 1.2,
+      ease: "easeOut",
+      onUpdate: (v) => setN(Math.round(v)),
+    });
+    return () => controls.stop();
+  }, [inView, value]);
+  return <span ref={ref}>{n.toLocaleString()}</span>;
+}
 
 export default function Waitlist() {
   const [iso, setIso] = useState("IN");
@@ -140,10 +157,22 @@ export default function Waitlist() {
           Be among the first to invite a Bro.
         </p>
 
-        {count !== null && count >= COUNTER_FLOOR && state !== "done" && (
-          <p className="mt-6 text-sm text-brand">
-            {count.toLocaleString()} people are already waiting
-          </p>
+        {count !== null && state !== "done" && (
+          <div className="mt-6 text-sm">
+            <p className="text-brand font-medium">
+              Founding member #{(count + 1).toLocaleString()} is open.
+            </p>
+            {count >= COUNTER_FLOOR ? (
+              <p className="mt-1 text-muted">
+                <CountUp value={count} /> people are already waiting
+              </p>
+            ) : count > 0 ? (
+              <p className="mt-1 text-muted">
+                The founding circle is forming — {count}{" "}
+                {count === 1 ? "spot" : "spots"} claimed.
+              </p>
+            ) : null}
+          </div>
         )}
 
         {state === "done" ? (

@@ -7,6 +7,10 @@ import {
   Layer,
   Statement,
   SideNote,
+  FloatingNote,
+  NoteBubble,
+  isDesktopViewport,
+  ramp,
   useRamp,
 } from "@/components/scroll/Scrub";
 import PhoneFrame from "@/components/chat/PhoneFrame";
@@ -33,7 +37,20 @@ function Stage({ p }: { p: MotionValue<number> }) {
     return `saturate(${1 - t * 0.7}) brightness(${1 - t * 0.45})`;
   });
   const phoneOpacity = useRamp(p, [0.68, 0.73], [1, 0]);
-  const phoneScale = useRamp(p, [0.68, 0.73], [1, 0.96]);
+  // Zoom in on the unanswered message, then recede as the chat dies.
+  const phoneScale = useRamp(p, [0.6, 0.66, 0.68, 0.73], [1, 1.06, 1.06, 0.96]);
+  // Desktop choreography: the phone drifts opposite each side caption,
+  // with a slight lean — a character on a stage, not a statue.
+  const phoneX = useTransform(p, (v) =>
+    isDesktopViewport()
+      ? `${ramp(v, [0.05, 0.12, 0.26, 0.34, 0.42, 0.48, 0.58, 0.66], [0, 11, 11, 0, 0, -11, -11, 0])}vw`
+      : "0vw"
+  );
+  const phoneRotate = useTransform(p, (v) =>
+    isDesktopViewport()
+      ? ramp(v, [0.05, 0.12, 0.26, 0.34, 0.42, 0.48, 0.58, 0.66], [0, 1.4, 1.4, 0, 0, -1.4, -1.4, 0])
+      : 0
+  );
   const hintOpacity = useRamp(p, [0, 0.03], [1, 0]);
   const valueOpacity = useRamp(p, [0.02, 0.06], [1, 0]);
 
@@ -48,7 +65,13 @@ function Stage({ p }: { p: MotionValue<number> }) {
         }}
       />
       <motion.div
-        style={{ opacity: phoneOpacity, scale: phoneScale, filter: phoneFilter }}
+        style={{
+          opacity: phoneOpacity,
+          scale: phoneScale,
+          filter: phoneFilter,
+          x: phoneX,
+          rotate: phoneRotate,
+        }}
       >
         <PhoneFrame groupName="the squad 🏀" members={MEMBERS} memberCount={8}>
           {/* Batch 1 — peak energy */}
@@ -165,6 +188,23 @@ function Stage({ p }: { p: MotionValue<number> }) {
       <SideNote p={p} enter={0.42} exit={0.64} side="right" title="Then everyone got busy.">
         The gaps between messages grew. Nobody really noticed.
       </SideNote>
+
+      {/* the chat's energy leaks out of the phone (desktop, peak phase only) */}
+      <FloatingNote p={p} at={0.04} x="17%" y="18%">
+        <span className="text-3xl">😂😂</span>
+      </FloatingNote>
+      <FloatingNote p={p} at={0.1} x="70%" y="24%">
+        <NoteBubble>bro that&apos;s illegal 💀</NoteBubble>
+      </FloatingNote>
+      <FloatingNote p={p} at={0.17} x="14%" y="70%">
+        <NoteBubble>delete this before mom sees 😭</NoteBubble>
+      </FloatingNote>
+      <FloatingNote p={p} at={0.24} x="74%" y="62%">
+        <span className="text-3xl">🔥🔥</span>
+      </FloatingNote>
+      <FloatingNote p={p} at={0.3} x="68%" y="36%">
+        <NoteBubble>WHO took this video 😭</NoteBubble>
+      </FloatingNote>
 
       {/* scroll hint */}
       <motion.div

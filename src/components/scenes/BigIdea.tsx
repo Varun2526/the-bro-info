@@ -9,13 +9,32 @@ import {
 } from "@/components/scroll/Scrub";
 import { bro } from "@/components/chat/cast";
 
-const FLOW: { who: "friend" | "bro"; color?: string }[] = [
-  { who: "friend" },
-  { who: "friend" },
-  { who: "bro", color: bro("trouble").color },
-  { who: "friend" },
-  { who: "bro", color: bro("bava").color },
-  { who: "friend" },
+const BLAZE = bro("trouble");
+const KAI = bro("bava");
+
+/** A real micro-conversation — show the rhythm, don't diagram it. */
+const FLOW: {
+  who: "friend" | "bro";
+  color?: string;
+  name?: string;
+  text: string;
+}[] = [
+  { who: "friend", text: "so are we doing this trip or not 😭" },
+  { who: "friend", text: "every year we say goa. every year, nothing." },
+  {
+    who: "bro",
+    color: BLAZE.color,
+    name: BLAZE.name,
+    text: "poll's up. vote in 1 hour or I'm choosing ⏳",
+  },
+  { who: "friend", text: "WHO gave him admin" },
+  {
+    who: "bro",
+    color: KAI.color,
+    name: KAI.name,
+    text: "I have a meme for this exact moment",
+  },
+  { who: "friend", text: "ok fine, voting 😂" },
 ];
 
 function Stage({ p }: { p: MotionValue<number> }) {
@@ -39,20 +58,24 @@ function Stage({ p }: { p: MotionValue<number> }) {
               className={`flex items-center gap-3 ${row.who === "bro" ? "flex-row-reverse" : ""}`}
             >
               <div
-                className={`w-44 sm:w-60 h-9 rounded-full ${
-                  row.who === "friend" ? "bg-white/10" : ""
+                className={`max-w-64 sm:max-w-xs px-4 py-2 text-[13.5px] leading-snug rounded-2xl ${
+                  row.who === "friend"
+                    ? "bg-white/10 rounded-bl-md"
+                    : "rounded-br-md"
                 }`}
                 style={
                   row.who === "bro"
-                    ? { background: `${row.color}33`, border: `1px solid ${row.color}66` }
+                    ? { background: `${row.color}26`, border: `1px solid ${row.color}55` }
                     : undefined
                 }
-              />
+              >
+                {row.text}
+              </div>
               <span
-                className="text-[11px] uppercase tracking-widest"
+                className="text-[11px] uppercase tracking-widest shrink-0"
                 style={{ color: row.who === "bro" ? row.color : "#8e8e93" }}
               >
-                {row.who}
+                {row.who === "bro" ? row.name : "friend"}
               </span>
             </div>
           </Beat>

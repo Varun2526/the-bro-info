@@ -17,6 +17,8 @@ export type Bro = {
   color: string;
   vibe: string;
   line: string;
+  /** What the Bro says when you hover/tap their card. */
+  reply: string;
 };
 
 /** Look up a Bro by image id — the single source of truth for names. */
@@ -34,6 +36,7 @@ export const BROS: Bro[] = [
     color: "#bf8cff",
     vibe: "Chaos agent. Roasts everyone. Revives dead group chats.",
     line: "this group has more members than conversations 💀",
+    reply: "and I'm about to fix that. buckle up. 😈",
   },
   {
     id: "drama",
@@ -41,6 +44,7 @@ export const BROS: Bro[] = [
     color: "#ff7ab6",
     vibe: "Lives for the tea. Reacts to EVERYTHING.",
     line: "WAIT. back up. who said that?? 🍿",
+    reply: "I already have theories. voice note incoming 🍿",
   },
   {
     id: "bava",
@@ -48,6 +52,7 @@ export const BROS: Bro[] = [
     color: "#ffd60a",
     vibe: "Walking meme archive. Has a sticker for every situation.",
     line: "hold on, I have a meme for exactly this.",
+    reply: "*sends the exact right meme* you know the one.",
   },
   {
     id: "finance",
@@ -55,6 +60,7 @@ export const BROS: Bro[] = [
     color: "#30d158",
     vibe: "Turns every conversation into a portfolio review.",
     line: "that's not a loss bro, that's a buying opportunity 📉",
+    reply: "also someone owes the group \u20b9740. I keep records.",
   },
   {
     id: "observer",
@@ -62,6 +68,7 @@ export const BROS: Bro[] = [
     color: "#4d9fff",
     vibe: "Silent for days. Then one line that ends everyone.",
     line: "noted. screenshotted. archived.",
+    reply: "I see everything. I say little. fear me.",
   },
   {
     id: "spidy",
@@ -69,6 +76,7 @@ export const BROS: Bro[] = [
     color: "#22d3ee",
     vibe: "Terminally online. Knows the trend before it trends.",
     line: "you're seeing this 6 hours late btw 🕸️",
+    reply: "I knew this trend before it trended. obviously.",
   },
 ];
 

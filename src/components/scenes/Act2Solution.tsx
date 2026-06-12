@@ -8,6 +8,10 @@ import {
   Layer,
   Statement,
   SideNote,
+  FloatingNote,
+  NoteBubble,
+  isDesktopViewport,
+  ramp,
   useRamp,
 } from "@/components/scroll/Scrub";
 import PhoneFrame from "@/components/chat/PhoneFrame";
@@ -29,6 +33,21 @@ function Stage({ p }: { p: MotionValue<number> }) {
   // statement scrolls off and the dead chat is right there. No black gap.
   const phoneOpacity = useRamp(p, [0.76, 0.82], [1, 0]);
   const phoneScale = useRamp(p, [0.76, 0.82], [1, 0.97]);
+  // Desktop choreography mirrors Act 1, with a lean into Blaze's opener.
+  const phoneX = useTransform(p, (v) =>
+    isDesktopViewport()
+      ? `${ramp(v, [0.05, 0.12, 0.26, 0.34, 0.44, 0.5, 0.64, 0.72], [0, 11, 11, 0, 0, -11, -11, 0])}vw`
+      : "0vw"
+  );
+  const phoneRotate = useTransform(p, (v) =>
+    isDesktopViewport()
+      ? ramp(
+          v,
+          [0.05, 0.12, 0.24, 0.27, 0.31, 0.34, 0.44, 0.5, 0.64, 0.72],
+          [0, 1.4, 1.4, -1.8, 1.4, 0, 0, -1.4, -1.4, 0]
+        )
+      : 0
+  );
 
   // The reviver's typing dots swap into his first message in place. Beats are
   // spread across a wide progress band so a quick flick can't blur the
@@ -48,7 +67,13 @@ function Stage({ p }: { p: MotionValue<number> }) {
         }}
       />
       <motion.div
-        style={{ opacity: phoneOpacity, scale: phoneScale, filter: phoneFilter }}
+        style={{
+          opacity: phoneOpacity,
+          scale: phoneScale,
+          filter: phoneFilter,
+          x: phoneX,
+          rotate: phoneRotate,
+        }}
       >
         <PhoneFrame groupName="the squad 🏀" members={MEMBERS} memberCount={8}>
           {/* The dead chat, then the reviver arrives */}
@@ -142,8 +167,25 @@ function Stage({ p }: { p: MotionValue<number> }) {
         One spark is all a dead chat needs.
       </SideNote>
 
-      {/* the reveal */}
-      <Statement p={p} enter={0.8} exit={0.91}>
+      {/* the revival spills out of the phone (desktop only) */}
+      <FloatingNote p={p} at={0.46} x="16%" y="20%">
+        <span className="text-3xl">😭😭</span>
+      </FloatingNote>
+      <FloatingNote p={p} at={0.52} x="72%" y="16%">
+        <NoteBubble>WHO ADDED HIM 💀</NoteBubble>
+      </FloatingNote>
+      <FloatingNote p={p} at={0.58} x="14%" y="68%">
+        <NoteBubble>the chat is BACK</NoteBubble>
+      </FloatingNote>
+      <FloatingNote p={p} at={0.64} x="75%" y="72%">
+        <span className="text-3xl">❤️‍🔥</span>
+      </FloatingNote>
+      <FloatingNote p={p} at={0.69} x="66%" y="34%">
+        <NoteBubble>Blaze for president 😂</NoteBubble>
+      </FloatingNote>
+
+      {/* the reveal — the page's money shot gets the dramatic entrance */}
+      <Statement p={p} enter={0.8} exit={0.91} dramatic>
         Meet <span className="text-brand">Bro</span>.
       </Statement>
       <Statement p={p} enter={0.91} exit={1} hold>

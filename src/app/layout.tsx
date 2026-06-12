@@ -14,10 +14,28 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
 });
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const TITLE = "Bro — Every group chat deserves a Bro";
+const DESCRIPTION =
+  "Personalities built for group chats. They don't replace conversations — they join them. Join the waitlist.";
+
 export const metadata: Metadata = {
-  title: "Bro — Every group chat deserves a Bro",
-  description:
-    "Personalities built for group chats. They don't replace conversations — they join them. Join the waitlist.",
+  metadataBase: new URL(SITE_URL),
+  title: TITLE,
+  description: DESCRIPTION,
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    siteName: "Bro",
+    type: "website",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Bro — personalities that join your group chat" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/og.png"],
+  },
 };
 
 export const viewport: Viewport = {

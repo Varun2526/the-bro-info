@@ -17,7 +17,7 @@ import {
  * elements read the wrong progress. Function transforms can't be accelerated,
  * which keeps every element on the same JS-driven timeline.
  */
-function ramp(v: number, input: number[], output: number[]): number {
+export function ramp(v: number, input: number[], output: number[]): number {
   if (v <= input[0]) return output[0];
   for (let i = 1; i < input.length; i++) {
     if (v <= input[i]) {
@@ -140,6 +140,57 @@ export function Layer({
   );
 }
 
+/** True on lg+ viewports, read live so scroll transforms can gate
+ *  desktop-only choreography without re-render plumbing. */
+export function isDesktopViewport(): boolean {
+  return typeof window !== "undefined" && window.innerWidth >= 1024;
+}
+
+/**
+ * A reaction/quote that drifts up through the desktop side space while
+ * the chat plays — the conversation's energy leaking out of the phone.
+ */
+export function FloatingNote({
+  p,
+  at,
+  span = 0.14,
+  x,
+  y,
+  children,
+}: {
+  p: MotionValue<number>;
+  at: number;
+  span?: number;
+  /** percentage strings, e.g. "16%" */
+  x: string;
+  y: string;
+  children: ReactNode;
+}) {
+  const opacity = useRamp(
+    p,
+    [at, at + 0.025, at + span - 0.035, at + span],
+    [0, 1, 1, 0]
+  );
+  const ty = useRamp(p, [at, at + span], [28, -56]);
+  return (
+    <motion.div
+      className="hidden lg:block absolute pointer-events-none select-none"
+      style={{ left: x, top: y, opacity, y: ty }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/** Mini chat bubble for FloatingNote contents. */
+export function NoteBubble({ children }: { children: ReactNode }) {
+  return (
+    <span className="inline-block px-3.5 py-2 rounded-2xl rounded-bl-md bg-white/8 border border-white/10 text-sm text-paper/85 shadow-[0_8px_24px_rgba(0,0,0,0.4)]">
+      {children}
+    </span>
+  );
+}
+
 /**
  * Desktop-only caption beside the centered phone — the wide canvas
  * should participate in the story instead of being a void.
@@ -180,18 +231,22 @@ export function SideNote({
   );
 }
 
-/** Large display statement, scrubbed in and out. */
+/** Large display statement, scrubbed in and out.
+ *  `dramatic` adds a blur-to-sharp + slight scale entrance — reserve it
+ *  for the page's money shots. */
 export function Statement({
   p,
   enter,
   exit,
   hold = false,
+  dramatic = false,
   children,
 }: {
   p: MotionValue<number>;
   enter: number;
   exit: number;
   hold?: boolean;
+  dramatic?: boolean;
   children: ReactNode;
 }) {
   const fade = 0.035;
@@ -201,10 +256,16 @@ export function Statement({
     hold ? [0, 1] : [0, 1, 1, 0]
   );
   const y = useRamp(p, [enter, enter + fade], [30, 0]);
+  const filter = useTransform(p, (v) =>
+    dramatic ? `blur(${ramp(v, [enter, enter + fade * 1.6], [14, 0])}px)` : "none"
+  );
+  const scale = useTransform(p, (v) =>
+    dramatic ? ramp(v, [enter, enter + fade * 1.6], [1.08, 1]) : 1
+  );
   return (
     <motion.div
       className="absolute inset-0 flex items-center justify-center px-6"
-      style={{ opacity, y }}
+      style={{ opacity, y, filter, scale }}
     >
       <h2 className="font-display text-3xl sm:text-5xl lg:text-6xl font-semibold text-center leading-tight tracking-tight max-w-4xl text-balance">
         {children}
