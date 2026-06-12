@@ -13,14 +13,14 @@ export default function Footer() {
             Personalities built for group chats. They don&apos;t replace
             conversations — they join them.
           </p>
-          <p className="mt-3 text-sm text-paper/50">
+          <p className="mt-3 text-sm text-paper/60">
             Built by a small team that lost too many group chats.
           </p>
         </div>
 
         <div className="flex gap-14">
           <div>
-            <div className="text-xs uppercase tracking-[0.2em] text-muted mb-3">
+            <div className="text-xs uppercase tracking-[0.25em] text-muted mb-3">
               Product
             </div>
             <ul className="flex flex-col gap-2 text-sm">
@@ -35,7 +35,7 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <div className="text-xs uppercase tracking-[0.2em] text-muted mb-3">
+            <div className="text-xs uppercase tracking-[0.25em] text-muted mb-3">
               Contact
             </div>
             <ul className="flex flex-col gap-2 text-sm">
@@ -50,7 +50,7 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <div className="text-xs uppercase tracking-[0.2em] text-muted mb-3">
+            <div className="text-xs uppercase tracking-[0.25em] text-muted mb-3">
               Legal
             </div>
             <ul className="flex flex-col gap-2 text-sm">

@@ -6,6 +6,7 @@ import {
   Beat,
   Layer,
   Statement,
+  SideNote,
   useRamp,
 } from "@/components/scroll/Scrub";
 import PhoneFrame from "@/components/chat/PhoneFrame";
@@ -156,6 +157,14 @@ function Stage({ p }: { p: MotionValue<number> }) {
           This is the story of every group chat. Scroll.
         </p>
       </motion.div>
+
+      {/* desktop side captions — the wide canvas tells the story too */}
+      <SideNote p={p} enter={0.05} exit={0.3} side="left" title="It used to be like this.">
+        Plans at 2am. Memes nobody outside the group would get.
+      </SideNote>
+      <SideNote p={p} enter={0.42} exit={0.64} side="right" title="Then everyone got busy.">
+        The gaps between messages grew. Nobody really noticed.
+      </SideNote>
 
       {/* scroll hint */}
       <motion.div

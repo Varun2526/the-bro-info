@@ -1,21 +1,33 @@
+import dynamic from "next/dynamic";
 import Act1Problem from "@/components/scenes/Act1Problem";
 import Act2Solution from "@/components/scenes/Act2Solution";
-import BrosShowcase from "@/components/scenes/BrosShowcase";
-import BigIdea from "@/components/scenes/BigIdea";
-import Act3Scenarios from "@/components/scenes/Act3Scenarios";
-import CreatorMoment from "@/components/scenes/CreatorMoment";
-import Vision from "@/components/scenes/Vision";
-import Waitlist from "@/components/scenes/Waitlist";
-import Footer from "@/components/Footer";
 import ScrollProgress from "@/components/ScrollProgress";
+
+/* Below-the-fold scenes are code-split: they keep SSR (the HTML is in
+   the initial response for SEO) but their JS loads in separate chunks,
+   shrinking what must parse before the first scroll responds. */
+const BrosShowcase = dynamic(() => import("@/components/scenes/BrosShowcase"));
+const BigIdea = dynamic(() => import("@/components/scenes/BigIdea"));
+const Act3Scenarios = dynamic(() => import("@/components/scenes/Act3Scenarios"));
+const CreatorMoment = dynamic(() => import("@/components/scenes/CreatorMoment"));
+const Vision = dynamic(() => import("@/components/scenes/Vision"));
+const Waitlist = dynamic(() => import("@/components/scenes/Waitlist"));
+const Footer = dynamic(() => import("@/components/Footer"));
 
 export default function Home() {
   return (
     <main className="bg-ink">
+      {/* keyboard users can skip the 20-screen story */}
+      <a
+        href="#waitlist"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-16 focus:left-6 focus:z-50 focus:px-4 focus:py-2 focus:rounded-full focus:bg-brand focus:text-ink focus:text-sm focus:font-semibold"
+      >
+        Skip to waitlist
+      </a>
       <ScrollProgress />
       {/* fixed wordmark */}
       <div className="fixed top-5 left-6 z-50 font-display font-bold text-lg tracking-tight">
-        Bro
+        Bro<span className="text-brand">.</span>
       </div>
       <a
         href="#waitlist"

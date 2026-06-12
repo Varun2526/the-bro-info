@@ -7,6 +7,7 @@ import {
   Beat,
   Layer,
   Statement,
+  SideNote,
   useRamp,
 } from "@/components/scroll/Scrub";
 import PhoneFrame from "@/components/chat/PhoneFrame";
@@ -66,7 +67,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
 
             <Beat p={p} at={0.06} y={8}>
               <SystemNote>
-                <span className="px-3 py-1 rounded-full bg-luna/15 text-luna font-medium">
+                <span className="px-3 py-1 rounded-full bg-brand/15 text-brand font-medium">
                   ⚡ {REVIVER.name} joined the group
                 </span>
               </SystemNote>
@@ -133,9 +134,17 @@ function Stage({ p }: { p: MotionValue<number> }) {
         </PhoneFrame>
       </motion.div>
 
+      {/* desktop side captions */}
+      <SideNote p={p} enter={0.05} exit={0.3} side="left" title="Then someone new joined.">
+        Not a person. Not a bot. A personality.
+      </SideNote>
+      <SideNote p={p} enter={0.44} exit={0.7} side="right" title="And the group woke up.">
+        One spark is all a dead chat needs.
+      </SideNote>
+
       {/* the reveal */}
       <Statement p={p} enter={0.8} exit={0.91}>
-        Meet <span className="text-luna">Bro</span>.
+        Meet <span className="text-brand">Bro</span>.
       </Statement>
       <Statement p={p} enter={0.91} exit={1} hold>
         Personalities built

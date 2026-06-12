@@ -140,6 +140,46 @@ export function Layer({
   );
 }
 
+/**
+ * Desktop-only caption beside the centered phone — the wide canvas
+ * should participate in the story instead of being a void.
+ */
+export function SideNote({
+  p,
+  enter,
+  exit,
+  side,
+  title,
+  children,
+}: {
+  p: MotionValue<number>;
+  enter: number;
+  exit: number;
+  side: "left" | "right";
+  title: string;
+  children: ReactNode;
+}) {
+  const opacity = useRamp(
+    p,
+    [enter, enter + 0.05, exit - 0.05, exit],
+    [0, 1, 1, 0]
+  );
+  const y = useRamp(p, [enter, enter + 0.05], [24, 0]);
+  return (
+    <motion.div
+      className={`hidden lg:block absolute top-[40vh] max-w-60 ${
+        side === "left" ? "left-[7vw]" : "right-[7vw] text-right"
+      }`}
+      style={{ opacity, y }}
+    >
+      <div className="font-display text-2xl font-semibold tracking-tight text-paper/85">
+        {title}
+      </div>
+      <p className="mt-2 text-sm text-muted leading-relaxed">{children}</p>
+    </motion.div>
+  );
+}
+
 /** Large display statement, scrubbed in and out. */
 export function Statement({
   p,

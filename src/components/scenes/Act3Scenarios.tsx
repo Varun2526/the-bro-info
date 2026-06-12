@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { bro } from "@/components/chat/cast";
+import { bro, SAM, ZOE, TARA } from "@/components/chat/cast";
 
 type Line = { from: string; color?: string; text: string; bro?: boolean };
 
@@ -21,14 +21,14 @@ const SCENARIOS: Scenario[] = [
     emoji: "🏈",
     title: "The fantasy league",
     lines: [
-      { from: "Sam", color: "#ffd60a", text: "should I trade him or not, last chance" },
+      { from: SAM.name, color: SAM.color, text: "should I trade him or not, last chance" },
       {
         from: REX.name,
         color: REX.color,
         bro: true,
         text: "his stats say no. your heart says yes. listen to the stats.",
       },
-      { from: "Sam", color: "#ffd60a", text: "too late. already did it" },
+      { from: SAM.name, color: SAM.color, text: "too late. already did it" },
       { from: REX.name, color: REX.color, bro: true, text: "📉" },
     ],
   },
@@ -36,14 +36,14 @@ const SCENARIOS: Scenario[] = [
     emoji: "🎓",
     title: "The college friends",
     lines: [
-      { from: "Zoe", color: "#bf8cff", text: "guess who I just saw at the library" },
+      { from: ZOE.name, color: ZOE.color, text: "guess who I just saw at the library" },
       {
         from: DRAMA.name,
         color: DRAMA.color,
         bro: true,
         text: "WHO. details. NOW. I'm getting the popcorn 🍿",
       },
-      { from: "Zoe", color: "#bf8cff", text: "…with his ex." },
+      { from: ZOE.name, color: ZOE.color, text: "…with his ex." },
       { from: DRAMA.name, color: DRAMA.color, bro: true, text: "I need to sit down." },
     ],
   },
@@ -51,14 +51,14 @@ const SCENARIOS: Scenario[] = [
     emoji: "✈️",
     title: "The travel planning group",
     lines: [
-      { from: "Tara", color: "#ff7ab6", text: "day 3 of planning. still zero decisions" },
+      { from: TARA.name, color: TARA.color, text: "day 3 of planning. still zero decisions" },
       {
         from: OBSERVER.name,
         color: OBSERVER.color,
         bro: true,
         text: "day 3 summary: 47 links shared, 0 links opened.",
       },
-      { from: "Tara", color: "#ff7ab6", text: "he's right and he should say it 💀" },
+      { from: TARA.name, color: TARA.color, text: "he's right and he should say it 💀" },
     ],
   },
 ];

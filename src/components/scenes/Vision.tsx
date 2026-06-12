@@ -2,25 +2,32 @@
 
 import { MotionValue } from "framer-motion";
 import { PinnedScene, Beat, Statement } from "@/components/scroll/Scrub";
+import { BROS } from "@/components/chat/cast";
 
 /**
  * A constellation of group chats lighting up across the world.
  * Deterministic positions — no Math.random, so SSR and client agree.
+ * Colors cycle through the cast so the palette stays in sync.
  */
-const DOTS: { x: number; y: number; c: string; s: number }[] = [
-  { x: 8, y: 18, c: "#bf8cff", s: 10 }, { x: 16, y: 64, c: "#4d9fff", s: 7 },
-  { x: 23, y: 32, c: "#ffd60a", s: 12 }, { x: 30, y: 78, c: "#ff7ab6", s: 8 },
-  { x: 36, y: 14, c: "#30d158", s: 9 }, { x: 42, y: 52, c: "#22d3ee", s: 11 },
-  { x: 49, y: 84, c: "#bf8cff", s: 7 }, { x: 55, y: 26, c: "#ff7ab6", s: 10 },
-  { x: 61, y: 66, c: "#ffd60a", s: 8 }, { x: 68, y: 12, c: "#4d9fff", s: 12 },
-  { x: 74, y: 44, c: "#30d158", s: 7 }, { x: 81, y: 76, c: "#22d3ee", s: 9 },
-  { x: 88, y: 30, c: "#bf8cff", s: 11 }, { x: 93, y: 58, c: "#ff7ab6", s: 7 },
-  { x: 12, y: 88, c: "#22d3ee", s: 9 }, { x: 27, y: 8, c: "#ff7ab6", s: 7 },
-  { x: 58, y: 8, c: "#30d158", s: 8 }, { x: 86, y: 90, c: "#ffd60a", s: 10 },
-  { x: 5, y: 44, c: "#30d158", s: 8 }, { x: 95, y: 12, c: "#22d3ee", s: 8 },
-  { x: 47, y: 38, c: "#ff5c38", s: 9 }, { x: 70, y: 88, c: "#4d9fff", s: 10 },
-  { x: 34, y: 94, c: "#bf8cff", s: 8 }, { x: 64, y: 36, c: "#ffd60a", s: 7 },
+const POSITIONS: { x: number; y: number; s: number }[] = [
+  { x: 8, y: 18, s: 10 }, { x: 16, y: 64, s: 7 },
+  { x: 23, y: 32, s: 12 }, { x: 30, y: 78, s: 8 },
+  { x: 36, y: 14, s: 9 }, { x: 42, y: 52, s: 11 },
+  { x: 49, y: 84, s: 7 }, { x: 55, y: 26, s: 10 },
+  { x: 61, y: 66, s: 8 }, { x: 68, y: 12, s: 12 },
+  { x: 74, y: 44, s: 7 }, { x: 81, y: 76, s: 9 },
+  { x: 88, y: 30, s: 11 }, { x: 93, y: 58, s: 7 },
+  { x: 12, y: 88, s: 9 }, { x: 27, y: 8, s: 7 },
+  { x: 58, y: 8, s: 8 }, { x: 86, y: 90, s: 10 },
+  { x: 5, y: 44, s: 8 }, { x: 95, y: 12, s: 8 },
+  { x: 47, y: 38, s: 9 }, { x: 70, y: 88, s: 10 },
+  { x: 34, y: 94, s: 8 }, { x: 64, y: 36, s: 7 },
 ];
+
+const DOTS = POSITIONS.map((d, i) => ({
+  ...d,
+  c: BROS[i % BROS.length].color,
+}));
 
 function Stage({ p }: { p: MotionValue<number> }) {
   return (
@@ -68,7 +75,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
       <Statement p={p} enter={0.65} exit={1} hold>
         Every group chat
         <br />
-        deserves a <span className="text-luna">Bro</span>.
+        deserves a <span className="text-brand">Bro</span>.
       </Statement>
     </div>
   );

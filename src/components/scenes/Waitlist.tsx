@@ -134,14 +134,14 @@ export default function Waitlist() {
         className="relative max-w-3xl"
       >
         <h2 className="font-display text-4xl sm:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.05] text-balance">
-          The next generation of group chats starts here.
+          Your group chat is about to get a new member.
         </h2>
         <p className="mt-5 text-lg sm:text-xl text-paper/60">
           Be among the first to invite a Bro.
         </p>
 
         {count !== null && count >= COUNTER_FLOOR && state !== "done" && (
-          <p className="mt-6 text-sm text-luna">
+          <p className="mt-6 text-sm text-brand">
             {count.toLocaleString()} people are already waiting
           </p>
         )}
@@ -201,7 +201,7 @@ export default function Waitlist() {
             onSubmit={submit}
             className="mt-10 flex flex-col sm:flex-row gap-3 justify-center items-stretch"
           >
-            <div className="flex h-13 rounded-full bg-white/6 border border-white/12 focus-within:border-luna/60 overflow-hidden w-full sm:w-96">
+            <div className="flex h-13 rounded-full bg-white/6 border border-white/12 focus-within:border-brand/60 overflow-hidden w-full sm:w-96">
               <div className="relative flex items-center border-r border-white/10 shrink-0">
                 <span className="pl-4 pr-1 text-[15px] pointer-events-none">
                   {flagOf(country.iso)}
@@ -239,7 +239,7 @@ export default function Waitlist() {
             <button
               type="submit"
               disabled={state === "busy"}
-              className="h-13 px-8 rounded-full font-semibold text-ink text-[15px] tracking-wide bg-gradient-to-r from-luna to-[#ff7ab6] hover:opacity-90 active:scale-[0.98] transition disabled:opacity-60 cursor-pointer"
+              className="h-13 px-8 rounded-full font-semibold text-ink text-[15px] tracking-wide bg-gradient-to-r from-brand to-brand-accent hover:opacity-90 active:scale-[0.98] transition disabled:opacity-60 cursor-pointer"
             >
               {state === "busy" ? "Joining…" : "JOIN THE WAITLIST"}
             </button>

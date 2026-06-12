@@ -7,13 +7,14 @@ import {
   Layer,
   Statement,
 } from "@/components/scroll/Scrub";
+import { bro } from "@/components/chat/cast";
 
 const FLOW: { who: "friend" | "bro"; color?: string }[] = [
   { who: "friend" },
   { who: "friend" },
-  { who: "bro", color: "#bf8cff" },
+  { who: "bro", color: bro("trouble").color },
   { who: "friend" },
-  { who: "bro", color: "#ffd60a" },
+  { who: "bro", color: bro("bava").color },
   { who: "friend" },
 ];
 
@@ -59,14 +60,14 @@ function Stage({ p }: { p: MotionValue<number> }) {
       </Layer>
 
       <Statement p={p} enter={0.45} exit={0.62}>
-        <span className="text-muted">Technology was built to</span>
+        <span className="text-muted">Everything else was built to</span>
         <br />
         replace conversations.
       </Statement>
       <Statement p={p} enter={0.61} exit={0.79}>
         Bro was built
         <br />
-        to <span className="text-luna">join</span> them.
+        to <span className="text-brand">join</span> them.
       </Statement>
       <Statement p={p} enter={0.78} exit={1} hold>
         Because the best conversations

@@ -10,7 +10,7 @@ export default function ScrollProgress() {
   const { scrollYProgress } = useScroll();
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 h-[2px] z-50 origin-left bg-gradient-to-r from-luna to-[#ff7ab6]"
+      className="fixed top-0 left-0 right-0 h-[2px] z-50 origin-left bg-gradient-to-r from-brand to-brand-accent"
       style={{ scaleX: scrollYProgress }}
     />
   );

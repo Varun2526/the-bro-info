@@ -111,6 +111,27 @@ for (const [src, id] of Object.entries(SOURCES)) {
     buf = await img.png().toBuffer({ resolveWithObject: true });
   }
 
+  // Art direction: crop full-body figures to waist-up so every showcase
+  // card has a consistent subject scale (bava/trouble are already close).
+  // extract and trim run as separate passes — sharp reorders ops inside
+  // a single pipeline (trim before extract), which breaks the area math.
+  const TOP_CROP = { finance: 0.5, drama: 0.56, observer: 0.54, spidy: 0.54 };
+  if (TOP_CROP[id]) {
+    const cropped = await sharp(buf.data)
+      .extract({
+        left: 0,
+        top: 0,
+        width: buf.info.width,
+        height: Math.floor(buf.info.height * TOP_CROP[id]),
+      })
+      .png()
+      .toBuffer();
+    buf = await sharp(cropped)
+      .trim({ threshold: 10 })
+      .png()
+      .toBuffer({ resolveWithObject: true });
+  }
+
   const out = path.join(dir, `${id}.webp`);
   await sharp(buf.data)
     .resize({ height: 900, withoutEnlargement: true })

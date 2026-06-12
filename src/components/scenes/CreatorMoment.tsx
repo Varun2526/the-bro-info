@@ -23,7 +23,7 @@ export default function CreatorMoment() {
           <br />
           <span className="text-paper/60">Share it with the world.</span>
         </h2>
-        <p className="mt-4 text-sm sm:text-base text-paper/50 max-w-md mx-auto">
+        <p className="mt-4 text-sm sm:text-base text-paper/60 max-w-md mx-auto">
           Anyone will be able to create a Bro, publish it, and watch it
           spread from group to group.
         </p>

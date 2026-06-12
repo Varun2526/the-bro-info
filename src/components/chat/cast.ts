@@ -1,3 +1,7 @@
+/** THE brand color — keep in sync with --brand in globals.css. */
+export const BRAND = "#bf8cff";
+export const BRAND_ACCENT = "#ff7ab6";
+
 /** The friend group — used across every chat scene. */
 export const JAY = { name: "Jay", color: "#4d9fff" };
 export const SAM = { name: "Sam", color: "#ffd60a" };
