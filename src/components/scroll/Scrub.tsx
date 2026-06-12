@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useRef } from "react";
+import { ReactNode, useMemo, useRef } from "react";
 import {
   motion,
   useScroll,
@@ -34,6 +34,58 @@ export function useRamp(
   output: number[]
 ) {
   return useTransform(p, (v) => ramp(v, input, output));
+}
+
+/**
+ * Scroll-pacing knots. Story progress is a PURE FUNCTION of scroll
+ * position (never a time-lagged spring) — on a pinned scrub scene the
+ * pin/unpin is driven by native scroll, so a lagging story would let a
+ * fast fling scroll the scene off-screen before its ending plays. Instead
+ * we reshape position→story: each checkpoint gets a flat "dwell band"
+ * where lots of scroll distance produces ~no story change (the beat
+ * holds), and the dead air between checkpoints advances faster. This is
+ * "decelerate around key beats, accelerate through gaps" without ever
+ * fighting the wheel — scroll up and you land exactly where you were.
+ */
+export function buildPaceKnots(holds: number[], dwell = 0.06) {
+  const sorted = [...holds].filter((h) => h > 0 && h < 1).sort((a, b) => a - b);
+  const totalDwell = Math.min(0.5, sorted.length * dwell);
+  const d = sorted.length ? totalDwell / sorted.length : 0;
+  const move = 1 - totalDwell; // scroll spent actually advancing the story
+  const scrollK: number[] = [0];
+  const storyK: number[] = [0];
+  let scroll = 0;
+  let prev = 0;
+  for (const h of sorted) {
+    scroll += move * (h - prev); // ramp up to the checkpoint
+    scrollK.push(scroll);
+    storyK.push(h);
+    scroll += d; // hold flat across the dwell band
+    scrollK.push(scroll);
+    storyK.push(h);
+    prev = h;
+  }
+  scroll += move * (1 - prev);
+  scrollK.push(scroll);
+  storyK.push(1);
+  return { scrollK, storyK };
+}
+
+/**
+ * Remap a scene's raw scroll progress into paced story progress that
+ * dwells on the given checkpoint positions. Deterministic and reversible
+ * — safe for pinned scenes and reduced-motion alike.
+ */
+export function usePacedProgress(
+  raw: MotionValue<number>,
+  holds: number[],
+  dwell = 0.06
+) {
+  const { scrollK, storyK } = useMemo(
+    () => buildPaceKnots(holds, dwell),
+    [holds, dwell]
+  );
+  return useTransform(raw, (v) => ramp(v, scrollK, storyK));
 }
 
 /**

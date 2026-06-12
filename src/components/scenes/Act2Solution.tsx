@@ -13,7 +13,12 @@ import {
   isDesktopViewport,
   ramp,
   useRamp,
+  usePacedProgress,
 } from "@/components/scroll/Scrub";
+
+/** Checkpoints that must linger: Blaze joins, his first message lands,
+ *  the revival, and the "Meet Bro." reveal. */
+const ACT2_HOLDS = [0.08, 0.27, 0.55, 0.85];
 import PhoneFrame from "@/components/chat/PhoneFrame";
 import {
   ChatBubble,
@@ -25,7 +30,9 @@ import { JAY, SAM, TARA, DEV, ZOE, MEMBERS, REVIVER } from "@/components/chat/ca
 import { useTheme } from "@/components/theme/Theme";
 import { ACT2 } from "./chatScripts";
 
-function Stage({ p }: { p: MotionValue<number> }) {
+function Stage({ p: rawP }: { p: MotionValue<number> }) {
+  // Pace raw scroll into story progress that dwells on the key beats.
+  const p = usePacedProgress(rawP, ACT2_HOLDS);
   // Theme changes only the words. Blaze, the reveal, and every timing
   // below stay identical — the showcase downstream shows the same Blaze.
   const s = ACT2[useTheme()];
@@ -223,7 +230,7 @@ function MidCta({ p }: { p: MotionValue<number> }) {
 
 export default function Act2Solution() {
   return (
-    <PinnedScene height="580vh" heightDesktop="440vh">
+    <PinnedScene height="620vh" heightDesktop="480vh">
       {(p) => <Stage p={p} />}
     </PinnedScene>
   );

@@ -12,7 +12,12 @@ import {
   isDesktopViewport,
   ramp,
   useRamp,
+  usePacedProgress,
 } from "@/components/scroll/Scrub";
+
+/** Checkpoints that must linger: alive-peak, still-alive plans, the
+ *  slowing, and the "Seen by 8" silence. */
+const ACT1_HOLDS = [0.13, 0.33, 0.5, 0.645];
 import PhoneFrame from "@/components/chat/PhoneFrame";
 import {
   ChatBubble,
@@ -32,7 +37,9 @@ import {
 import { useTheme } from "@/components/theme/Theme";
 import { ACT1 } from "./chatScripts";
 
-function Stage({ p }: { p: MotionValue<number> }) {
+function Stage({ p: rawP }: { p: MotionValue<number> }) {
+  // Pace raw scroll into story progress that dwells on the key beats.
+  const p = usePacedProgress(rawP, ACT1_HOLDS);
   // Theme changes only the words — every timing/sender/beat below is fixed.
   const s = ACT1[useTheme()];
   // The chat dims and desaturates as the group goes quiet, then fades out.
@@ -246,7 +253,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
 
 export default function Act1Problem() {
   return (
-    <PinnedScene height="520vh" heightDesktop="380vh">
+    <PinnedScene height="560vh" heightDesktop="430vh">
       {(p) => <Stage p={p} />}
     </PinnedScene>
   );
