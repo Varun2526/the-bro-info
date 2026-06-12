@@ -19,7 +19,7 @@ import {
 import {
   JAY,
   SAM,
-  MAYA,
+  TARA,
   DEV,
   ZOE,
   MEMBERS,
@@ -66,7 +66,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
               <ChatBubble me>say less. 9pm?</ChatBubble>
             </Beat>
             <Beat p={p} at={0.07}>
-              <ChatBubble sender={MAYA} reactions="😂 3">
+              <ChatBubble sender={TARA} reactions="😂 3">
                 someone bring snacks 🍿
               </ChatBubble>
             </Beat>
@@ -94,7 +94,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
               <ChatBubble me>I&apos;m crying 💀💀</ChatBubble>
             </Beat>
             <Beat p={p} at={0.33}>
-              <ChatBubble sender={MAYA}>
+              <ChatBubble sender={TARA}>
                 ok actual plan: beach saturday?
               </ChatBubble>
             </Beat>
@@ -123,7 +123,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
               <Timestamp>2 weeks later</Timestamp>
             </Beat>
             <Beat p={p} at={0.555}>
-              <ChatBubble sender={MAYA}>we should hang soon</ChatBubble>
+              <ChatBubble sender={TARA}>we should hang soon</ChatBubble>
             </Beat>
           </Layer>
 
@@ -185,7 +185,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
 
 export default function Act1Problem() {
   return (
-    <PinnedScene height="480vh" heightDesktop="340vh">
+    <PinnedScene height="520vh" heightDesktop="380vh">
       {(p) => <Stage p={p} />}
     </PinnedScene>
   );

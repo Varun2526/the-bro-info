@@ -14,6 +14,7 @@ export default function Waitlist() {
   const [count, setCount] = useState<number | null>(null);
   const [position, setPosition] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
+  const [showManual, setShowManual] = useState(false);
   const [state, setState] = useState<"idle" | "busy" | "done" | "error">(
     "idle"
   );
@@ -61,27 +62,53 @@ export default function Waitlist() {
     }
   }
 
-  function shareText() {
-    return `our group chat needs this 💀 personalities that join group chats — ${window.location.origin}`;
-  }
+  const shareUrl = () =>
+    typeof window !== "undefined" ? window.location.origin : "";
+  const shareText = () =>
+    `our group chat needs this 💀 personalities that join group chats — ${shareUrl()}`;
 
   async function share() {
     track("waitlist_share", { method: "native" });
     try {
       await navigator.share({ text: shareText() });
     } catch {
-      // user dismissed
+      // user dismissed — no-op
     }
   }
 
+  /** Try the async Clipboard API, fall back to execCommand, then reveal
+   *  a selectable field. Clipboard write is denied in many contexts
+   *  (iframes, unfocused tabs), so a silent single attempt looks broken. */
   async function copyLink() {
     track("waitlist_share", { method: "copy" });
+    const url = shareUrl();
+    let ok = false;
     try {
-      await navigator.clipboard.writeText(window.location.origin);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      await navigator.clipboard.writeText(url);
+      ok = true;
     } catch {
-      // clipboard unavailable
+      try {
+        const ta = document.createElement("textarea");
+        ta.value = url;
+        ta.style.position = "fixed";
+        ta.style.top = "0";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+      } catch {
+        ok = false;
+      }
+    }
+    if (ok) {
+      setCopied(true);
+      setShowManual(false);
+      setTimeout(() => setCopied(false), 2000);
+    } else {
+      // Last resort: show the link so the user can copy it by hand.
+      setShowManual(true);
     }
   }
 
@@ -156,6 +183,18 @@ export default function Waitlist() {
                 {copied ? "Copied ✓" : "Copy link"}
               </button>
             </div>
+
+            {showManual && (
+              <div className="mt-4 flex flex-col items-center gap-1">
+                <p className="text-xs text-muted">Copy this link:</p>
+                <input
+                  readOnly
+                  value={shareUrl()}
+                  onFocus={(e) => e.currentTarget.select()}
+                  className="w-full max-w-xs text-center text-sm px-4 py-2 rounded-full bg-white/8 border border-white/15 text-paper outline-none"
+                />
+              </div>
+            )}
           </motion.div>
         ) : (
           <form

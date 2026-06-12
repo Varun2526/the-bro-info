@@ -16,23 +16,25 @@ import {
   TypingDots,
   SystemNote,
 } from "@/components/chat/ChatBubble";
-import { JAY, SAM, MAYA, DEV, ZOE, MEMBERS, TROUBLE } from "@/components/chat/cast";
+import { JAY, SAM, TARA, DEV, ZOE, MEMBERS, REVIVER } from "@/components/chat/cast";
 
 function Stage({ p }: { p: MotionValue<number> }) {
-  // Color floods back into the chat as Trouble Bro revives it.
+  // Color floods back into the chat as the reviver brings it back.
   const phoneFilter = useTransform(p, (v) => {
     const t = Math.min(1, Math.max(0, (v - 0.16) / 0.3));
     return `saturate(${0.3 + t * 0.7}) brightness(${0.55 + t * 0.45})`;
   });
   // Phone is already on screen when the scene arrives — Act 1's held
   // statement scrolls off and the dead chat is right there. No black gap.
-  const phoneOpacity = useRamp(p, [0.64, 0.7], [1, 0]);
-  const phoneScale = useRamp(p, [0.64, 0.7], [1, 0.97]);
+  const phoneOpacity = useRamp(p, [0.76, 0.82], [1, 0]);
+  const phoneScale = useRamp(p, [0.76, 0.82], [1, 0.97]);
 
-  // Trouble Bro's typing dots swap into his first message in place.
-  const dotsOpacity = useRamp(p, [0.12, 0.135, 0.17, 0.185], [0, 1, 1, 0]);
-  const openerOpacity = useRamp(p, [0.185, 0.2], [0, 1]);
-  const openerY = useRamp(p, [0.185, 0.2], [10, 0]);
+  // The reviver's typing dots swap into his first message in place. Beats are
+  // spread across a wide progress band so a quick flick can't blur the
+  // revival — the densest, most important moment on the page.
+  const dotsOpacity = useRamp(p, [0.12, 0.14, 0.24, 0.26], [0, 1, 1, 0]);
+  const openerOpacity = useRamp(p, [0.26, 0.29], [0, 1]);
+  const openerY = useRamp(p, [0.26, 0.29], [10, 0]);
 
   return (
     <div className="h-full flex items-center justify-center">
@@ -48,8 +50,8 @@ function Stage({ p }: { p: MotionValue<number> }) {
         style={{ opacity: phoneOpacity, scale: phoneScale, filter: phoneFilter }}
       >
         <PhoneFrame groupName="the squad 🏀" members={MEMBERS} memberCount={8}>
-          {/* The dead chat, then Trouble Bro arrives */}
-          <Layer p={p} enter={-1} exit={0.34} fade={0.01} className="flex flex-col justify-end gap-1.5 pb-3">
+          {/* The dead chat, then the reviver arrives */}
+          <Layer p={p} enter={-1} exit={0.42} fade={0.012} className="flex flex-col justify-end gap-1.5 pb-3">
             <Beat p={p} at={-1}>
               <Timestamp>1 month later</Timestamp>
             </Beat>
@@ -62,10 +64,10 @@ function Stage({ p }: { p: MotionValue<number> }) {
               </div>
             </Beat>
 
-            <Beat p={p} at={0.07} y={8}>
+            <Beat p={p} at={0.06} y={8}>
               <SystemNote>
                 <span className="px-3 py-1 rounded-full bg-luna/15 text-luna font-medium">
-                  ⚡ Trouble Bro joined the group
+                  ⚡ {REVIVER.name} joined the group
                 </span>
               </SystemNote>
             </Beat>
@@ -76,7 +78,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
                 className="col-start-1 row-start-1 self-end"
                 style={{ opacity: dotsOpacity }}
               >
-                <ChatBubble sender={TROUBLE}>
+                <ChatBubble sender={REVIVER}>
                   <TypingDots />
                 </ChatBubble>
               </motion.div>
@@ -84,13 +86,13 @@ function Stage({ p }: { p: MotionValue<number> }) {
                 className="col-start-1 row-start-1 self-end"
                 style={{ opacity: openerOpacity, y: openerY }}
               >
-                <ChatBubble sender={TROUBLE}>
+                <ChatBubble sender={REVIVER}>
                   this group has more members than conversations 💀
                 </ChatBubble>
               </motion.div>
             </div>
 
-            <Beat p={p} at={0.25} y={6}>
+            <Beat p={p} at={0.33} y={6}>
               <div className="pl-9 -mt-1">
                 <span className="px-1.5 py-px rounded-full bg-[#222226] border border-white/10 text-[10px] tracking-tight">
                   💀 4&ensp;😂 3
@@ -98,31 +100,31 @@ function Stage({ p }: { p: MotionValue<number> }) {
               </div>
             </Beat>
 
-            <Beat p={p} at={0.29}>
+            <Beat p={p} at={0.37}>
               <ChatBubble sender={JAY}>LMAOOO who added this guy</ChatBubble>
             </Beat>
           </Layer>
 
           {/* The revival — the group is loud again */}
-          <Layer p={p} enter={0.36} exit={0.66} fade={0.015} className="flex flex-col justify-end gap-1.5 pb-3">
-            <Beat p={p} at={0.375}>
+          <Layer p={p} enter={0.42} exit={0.76} fade={0.018} className="flex flex-col justify-end gap-1.5 pb-3">
+            <Beat p={p} at={0.45}>
               <ChatBubble sender={SAM}>yo what 😭😭</ChatBubble>
             </Beat>
-            <Beat p={p} at={0.4}>
-              <ChatBubble sender={MAYA}>ok I&apos;m awake 😂</ChatBubble>
+            <Beat p={p} at={0.49}>
+              <ChatBubble sender={TARA}>ok I&apos;m awake 😂</ChatBubble>
             </Beat>
-            <Beat p={p} at={0.425}>
-              <ChatBubble sender={TROUBLE} reactions="🔥 6">
+            <Beat p={p} at={0.53}>
+              <ChatBubble sender={REVIVER} reactions="🔥 6">
                 movie night. friday. I&apos;m picking. be scared.
               </ChatBubble>
             </Beat>
-            <Beat p={p} at={0.46}>
+            <Beat p={p} at={0.57}>
               <ChatBubble sender={DEV}>INNNN</ChatBubble>
             </Beat>
-            <Beat p={p} at={0.485}>
+            <Beat p={p} at={0.61}>
               <ChatBubble me>not the group chat coming back to life 😭</ChatBubble>
             </Beat>
-            <Beat p={p} at={0.51}>
+            <Beat p={p} at={0.66}>
               <ChatBubble sender={ZOE} reactions="❤️ 5">
                 I missed this 🥹
               </ChatBubble>
@@ -132,10 +134,10 @@ function Stage({ p }: { p: MotionValue<number> }) {
       </motion.div>
 
       {/* the reveal */}
-      <Statement p={p} enter={0.71} exit={0.86}>
+      <Statement p={p} enter={0.8} exit={0.91}>
         Meet <span className="text-luna">Bro</span>.
       </Statement>
-      <Statement p={p} enter={0.85} exit={1} hold>
+      <Statement p={p} enter={0.91} exit={1} hold>
         Personalities built
         <br />
         for group chats.
@@ -147,8 +149,8 @@ function Stage({ p }: { p: MotionValue<number> }) {
 
 /** Convinced already? Don't make people scroll 13 more screens. */
 function MidCta({ p }: { p: MotionValue<number> }) {
-  const opacity = useRamp(p, [0.92, 0.96], [0, 1]);
-  const pointerEvents = useTransform(p, (v) => (v > 0.92 ? "auto" : "none"));
+  const opacity = useRamp(p, [0.95, 0.98], [0, 1]);
+  const pointerEvents = useTransform(p, (v) => (v > 0.95 ? "auto" : "none"));
   return (
     <motion.div
       className="absolute inset-x-0 bottom-[14vh] flex justify-center"
@@ -167,7 +169,7 @@ function MidCta({ p }: { p: MotionValue<number> }) {
 
 export default function Act2Solution() {
   return (
-    <PinnedScene height="440vh" heightDesktop="320vh">
+    <PinnedScene height="580vh" heightDesktop="440vh">
       {(p) => <Stage p={p} />}
     </PinnedScene>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { bro } from "@/components/chat/cast";
 
 type Line = { from: string; color?: string; text: string; bro?: boolean };
 
@@ -10,6 +11,11 @@ type Scenario = {
   lines: Line[];
 };
 
+/** Bro names/colors are pulled from the cast so renames stay in sync. */
+const REX = bro("finance");
+const DRAMA = bro("drama");
+const OBSERVER = bro("observer");
+
 const SCENARIOS: Scenario[] = [
   {
     emoji: "🏈",
@@ -17,13 +23,13 @@ const SCENARIOS: Scenario[] = [
     lines: [
       { from: "Sam", color: "#ffd60a", text: "should I trade him or not, last chance" },
       {
-        from: "Finance Bro",
-        color: "#30d158",
+        from: REX.name,
+        color: REX.color,
         bro: true,
         text: "his stats say no. your heart says yes. listen to the stats.",
       },
       { from: "Sam", color: "#ffd60a", text: "too late. already did it" },
-      { from: "Finance Bro", color: "#30d158", bro: true, text: "📉" },
+      { from: REX.name, color: REX.color, bro: true, text: "📉" },
     ],
   },
   {
@@ -32,27 +38,27 @@ const SCENARIOS: Scenario[] = [
     lines: [
       { from: "Zoe", color: "#bf8cff", text: "guess who I just saw at the library" },
       {
-        from: "Drama Queen",
-        color: "#ff7ab6",
+        from: DRAMA.name,
+        color: DRAMA.color,
         bro: true,
         text: "WHO. details. NOW. I'm getting the popcorn 🍿",
       },
       { from: "Zoe", color: "#bf8cff", text: "…with his ex." },
-      { from: "Drama Queen", color: "#ff7ab6", bro: true, text: "I need to sit down." },
+      { from: DRAMA.name, color: DRAMA.color, bro: true, text: "I need to sit down." },
     ],
   },
   {
     emoji: "✈️",
     title: "The travel planning group",
     lines: [
-      { from: "Maya", color: "#ff7ab6", text: "day 3 of planning. still zero decisions" },
+      { from: "Tara", color: "#ff7ab6", text: "day 3 of planning. still zero decisions" },
       {
-        from: "Observer Bro",
-        color: "#4d9fff",
+        from: OBSERVER.name,
+        color: OBSERVER.color,
         bro: true,
         text: "day 3 summary: 47 links shared, 0 links opened.",
       },
-      { from: "Maya", color: "#ff7ab6", text: "he's right and he should say it 💀" },
+      { from: "Tara", color: "#ff7ab6", text: "he's right and he should say it 💀" },
     ],
   },
 ];

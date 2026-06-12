@@ -36,7 +36,16 @@ export default function SmoothScroll({
   if (reducedMotion) return <>{children}</>;
 
   return (
-    <ReactLenis root options={{ lerp: 0.1, smoothWheel: true }}>
+    <ReactLenis
+      root
+      options={{
+        lerp: 0.1,
+        smoothWheel: true,
+        // Tame momentum so a quick flick doesn't rocket past the story.
+        wheelMultiplier: 0.85,
+        touchMultiplier: 1.3,
+      }}
+    >
       <ExposeLenis />
       {children}
     </ReactLenis>
