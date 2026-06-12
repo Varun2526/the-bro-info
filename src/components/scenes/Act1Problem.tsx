@@ -29,8 +29,12 @@ import {
   ZOE,
   MEMBERS,
 } from "@/components/chat/cast";
+import { useTheme } from "@/components/theme/Theme";
+import { ACT1 } from "./chatScripts";
 
 function Stage({ p }: { p: MotionValue<number> }) {
+  // Theme changes only the words — every timing/sender/beat below is fixed.
+  const s = ACT1[useTheme()];
   // The chat dims and desaturates as the group goes quiet, then fades out.
   const phoneFilter = useTransform(p, (v) => {
     const t = Math.min(1, Math.max(0, (v - 0.42) / 0.2));
@@ -83,35 +87,35 @@ function Stage({ p }: { p: MotionValue<number> }) {
           rotate: phoneRotate,
         }}
       >
-        <PhoneFrame groupName="the squad 🏀" members={MEMBERS} memberCount={8}>
+        <PhoneFrame groupName={s.group} members={MEMBERS} memberCount={8}>
           {/* Batch 1 — peak energy */}
           <Layer p={p} enter={-1} exit={0.22} fade={0.015} className="flex flex-col justify-end gap-1.5 pb-3">
             {/* already on screen when the page loads — the group feels alive instantly */}
             <Beat p={p} at={-1}>
-              <Timestamp>Friday 7:42 PM</Timestamp>
+              <Timestamp>{s.b1ts}</Timestamp>
             </Beat>
             <Beat p={p} at={-1}>
-              <ChatBubble sender={JAY}>WHO&apos;S COMING TONIGHT 🔥🔥</ChatBubble>
+              <ChatBubble sender={JAY}>{s.b1.jay}</ChatBubble>
             </Beat>
             <Beat p={p} at={-1}>
-              <ChatBubble sender={SAM}>broooo I&apos;m in</ChatBubble>
+              <ChatBubble sender={SAM}>{s.b1.sam}</ChatBubble>
             </Beat>
             <Beat p={p} at={0.03}>
-              <ChatBubble me>say less. 9pm?</ChatBubble>
+              <ChatBubble me>{s.b1.me}</ChatBubble>
             </Beat>
             <Beat p={p} at={0.07}>
-              <ChatBubble sender={TARA} reactions="😂 3">
-                someone bring snacks 🍿
+              <ChatBubble sender={TARA} reactions={s.b1.tara.react}>
+                {s.b1.tara.text}
               </ChatBubble>
             </Beat>
             <Beat p={p} at={0.115}>
               <ChatBubble sender={DEV}>
-                <VoiceNote duration="0:14" />
+                <VoiceNote duration={s.b1.voiceDur} />
               </ChatBubble>
             </Beat>
             <Beat p={p} at={0.16}>
-              <ChatBubble sender={ZOE} reactions="💀 5">
-                <MemeBubble emoji="🤣" label="meme.jpg" />
+              <ChatBubble sender={ZOE} reactions={s.b1.meme.react}>
+                <MemeBubble emoji={s.b1.meme.emoji} label={s.b1.meme.label} />
               </ChatBubble>
             </Beat>
           </Layer>
@@ -119,25 +123,23 @@ function Stage({ p }: { p: MotionValue<number> }) {
           {/* Batch 2 — still alive */}
           <Layer p={p} enter={0.24} exit={0.42} fade={0.015} className="flex flex-col justify-end gap-1.5 pb-3">
             <Beat p={p} at={0.255}>
-              <ChatBubble sender={SAM}>NO WAY 😭😭</ChatBubble>
+              <ChatBubble sender={SAM}>{s.b2.sam}</ChatBubble>
             </Beat>
             <Beat p={p} at={0.28}>
-              <ChatBubble sender={JAY}>LETS GOOOO</ChatBubble>
+              <ChatBubble sender={JAY}>{s.b2.jay}</ChatBubble>
             </Beat>
             <Beat p={p} at={0.305}>
-              <ChatBubble me>I&apos;m crying 💀💀</ChatBubble>
+              <ChatBubble me>{s.b2.me}</ChatBubble>
             </Beat>
             <Beat p={p} at={0.33}>
-              <ChatBubble sender={TARA}>
-                ok actual plan: beach saturday?
-              </ChatBubble>
+              <ChatBubble sender={TARA}>{s.b2.tara}</ChatBubble>
             </Beat>
             <Beat p={p} at={0.355}>
-              <ChatBubble sender={DEV}>INNNN</ChatBubble>
+              <ChatBubble sender={DEV}>{s.b2.dev}</ChatBubble>
             </Beat>
             <Beat p={p} at={0.38}>
-              <ChatBubble sender={ZOE} reactions="❤️ 4">
-                🔥🔥🔥
+              <ChatBubble sender={ZOE} reactions={s.b2.zoe.react}>
+                {s.b2.zoe.text}
               </ChatBubble>
             </Beat>
           </Layer>
@@ -145,29 +147,29 @@ function Stage({ p }: { p: MotionValue<number> }) {
           {/* Batch 3 — slowing down */}
           <Layer p={p} enter={0.44} exit={0.58} fade={0.015} className="flex flex-col justify-end gap-1.5 pb-3">
             <Beat p={p} at={0.455}>
-              <Timestamp>3 days later</Timestamp>
+              <Timestamp>{s.slow.t1}</Timestamp>
             </Beat>
             <Beat p={p} at={0.475}>
-              <ChatBubble sender={JAY}>anyone up?</ChatBubble>
+              <ChatBubble sender={JAY}>{s.slow.jay}</ChatBubble>
             </Beat>
             <Beat p={p} at={0.51}>
-              <ChatBubble sender={SAM}>busy rn… next week?</ChatBubble>
+              <ChatBubble sender={SAM}>{s.slow.sam}</ChatBubble>
             </Beat>
             <Beat p={p} at={0.535}>
-              <Timestamp>2 weeks later</Timestamp>
+              <Timestamp>{s.slow.t2}</Timestamp>
             </Beat>
             <Beat p={p} at={0.555}>
-              <ChatBubble sender={TARA}>we should hang soon</ChatBubble>
+              <ChatBubble sender={TARA}>{s.slow.tara}</ChatBubble>
             </Beat>
           </Layer>
 
           {/* Batch 4 — dead */}
           <Layer p={p} enter={0.6} exit={0.74} fade={0.015} className="flex flex-col justify-end gap-1.5 pb-3">
             <Beat p={p} at={0.615}>
-              <Timestamp>1 month later</Timestamp>
+              <Timestamp>{s.dead.t1}</Timestamp>
             </Beat>
             <Beat p={p} at={0.635}>
-              <ChatBubble sender={JAY}>Anyone alive here?</ChatBubble>
+              <ChatBubble sender={JAY}>{s.dead.jay}</ChatBubble>
             </Beat>
             <Beat p={p} at={0.66}>
               <div className="text-right text-[10.5px] text-muted pr-1">
@@ -192,28 +194,28 @@ function Stage({ p }: { p: MotionValue<number> }) {
       </motion.div>
 
       {/* desktop side captions — the wide canvas tells the story too */}
-      <SideNote p={p} enter={0.05} exit={0.3} side="left" title="It used to be like this.">
-        Plans at 2am. Memes nobody outside the group would get.
+      <SideNote p={p} enter={0.05} exit={0.3} side="left" title={s.notes[0].title}>
+        {s.notes[0].body}
       </SideNote>
-      <SideNote p={p} enter={0.42} exit={0.64} side="right" title="Then everyone got busy.">
-        The gaps between messages grew. Nobody really noticed.
+      <SideNote p={p} enter={0.42} exit={0.64} side="right" title={s.notes[1].title}>
+        {s.notes[1].body}
       </SideNote>
 
       {/* the chat's energy leaks out of the phone (desktop, peak phase only) */}
       <FloatingNote p={p} at={0.04} x="17%" y="18%">
-        <span className="text-3xl">😂😂</span>
+        <span className="text-3xl">{s.floating[0]}</span>
       </FloatingNote>
       <FloatingNote p={p} at={0.1} x="70%" y="24%">
-        <NoteBubble>bro that&apos;s illegal 💀</NoteBubble>
+        <NoteBubble>{s.floating[1]}</NoteBubble>
       </FloatingNote>
       <FloatingNote p={p} at={0.17} x="14%" y="70%">
-        <NoteBubble>delete this before mom sees 😭</NoteBubble>
+        <NoteBubble>{s.floating[2]}</NoteBubble>
       </FloatingNote>
       <FloatingNote p={p} at={0.24} x="74%" y="62%">
-        <span className="text-3xl">🔥🔥</span>
+        <span className="text-3xl">{s.floating[3]}</span>
       </FloatingNote>
       <FloatingNote p={p} at={0.3} x="68%" y="36%">
-        <NoteBubble>WHO took this video 😭</NoteBubble>
+        <NoteBubble>{s.floating[4]}</NoteBubble>
       </FloatingNote>
 
       {/* scroll hint */}

@@ -18,57 +18,59 @@ const Footer = dynamic(() => import("@/components/Footer"));
 
 export default function Home() {
   return (
-    <main>
-      {/* living background + theme system (decorative only) */}
-      <ThemeProvider>
+    <ThemeProvider>
+      <main>
+        {/* living background + theme system (decorative only) */}
         <Atmosphere />
         <ThemeSwitcher />
-      </ThemeProvider>
-      {/* keyboard users can skip the 20-screen story */}
-      <a
-        href="#waitlist"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-16 focus:left-6 focus:z-50 focus:px-4 focus:py-2 focus:rounded-full focus:bg-brand focus:text-ink focus:text-sm focus:font-semibold"
-      >
-        Skip to waitlist
-      </a>
-      <ScrollProgress />
-      <StickyCta />
-      {/* fixed wordmark */}
-      <div className="fixed top-5 left-6 z-50 font-display font-bold text-lg tracking-tight">
-        Bro<span className="text-brand">.</span>
-      </div>
-      <a
-        href="#waitlist"
-        className="fixed top-3 right-4 z-50 h-11 px-5 inline-flex items-center text-[13px] font-semibold rounded-full border border-white/15 bg-ink/60 backdrop-blur hover:bg-white/10 transition"
-      >
-        Join waitlist
-      </a>
+        {/* keyboard users can skip the 20-screen story */}
+        <a
+          href="#waitlist"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-16 focus:left-6 focus:z-50 focus:px-4 focus:py-2 focus:rounded-full focus:bg-brand focus:text-ink focus:text-sm focus:font-semibold"
+        >
+          Skip to waitlist
+        </a>
+        <ScrollProgress />
+        <StickyCta />
+        {/* fixed wordmark */}
+        <div className="fixed top-5 left-6 z-50 font-display font-bold text-lg tracking-tight">
+          Bro<span className="text-brand">.</span>
+        </div>
+        <a
+          href="#waitlist"
+          className="fixed top-3 right-4 z-50 h-11 px-5 inline-flex items-center text-[13px] font-semibold rounded-full border border-white/15 bg-ink/60 backdrop-blur hover:bg-white/10 transition"
+        >
+          Join waitlist
+        </a>
 
-      {/* Act 1 — the problem */}
-      <Act1Problem />
+        {/* Act 1 — the problem (theme-flavored chat content) */}
+        <Act1Problem />
 
-      {/* Act 2 — the revival */}
-      <Act2Solution />
+        {/* Act 2 — the revival (theme-flavored chat content) */}
+        <Act2Solution />
 
-      {/* The cast */}
-      <BrosShowcase />
+        {/* ── everything below is theme-agnostic and unchanged ── */}
 
-      {/* The big idea */}
-      <BigIdea />
+        {/* The cast */}
+        <BrosShowcase />
 
-      {/* Act 3 — imagine your group */}
-      <Act3Scenarios />
+        {/* The big idea */}
+        <BigIdea />
 
-      {/* For creators */}
-      <CreatorMoment />
+        {/* Act 3 — imagine your group */}
+        <Act3Scenarios />
 
-      {/* The vision */}
-      <Vision />
+        {/* For creators */}
+        <CreatorMoment />
 
-      {/* Conversion */}
-      <Waitlist />
+        {/* The vision */}
+        <Vision />
 
-      <Footer />
-    </main>
+        {/* Conversion */}
+        <Waitlist />
+
+        <Footer />
+      </main>
+    </ThemeProvider>
   );
 }

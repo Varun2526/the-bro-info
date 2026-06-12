@@ -22,8 +22,13 @@ import {
   SystemNote,
 } from "@/components/chat/ChatBubble";
 import { JAY, SAM, TARA, DEV, ZOE, MEMBERS, REVIVER } from "@/components/chat/cast";
+import { useTheme } from "@/components/theme/Theme";
+import { ACT2 } from "./chatScripts";
 
 function Stage({ p }: { p: MotionValue<number> }) {
+  // Theme changes only the words. Blaze, the reveal, and every timing
+  // below stay identical — the showcase downstream shows the same Blaze.
+  const s = ACT2[useTheme()];
   // Color floods back into the chat as the reviver brings it back.
   const phoneFilter = useTransform(p, (v) => {
     const t = Math.min(1, Math.max(0, (v - 0.16) / 0.3));
@@ -75,14 +80,14 @@ function Stage({ p }: { p: MotionValue<number> }) {
           rotate: phoneRotate,
         }}
       >
-        <PhoneFrame groupName="the squad 🏀" members={MEMBERS} memberCount={8}>
+        <PhoneFrame groupName={s.group} members={MEMBERS} memberCount={8}>
           {/* The dead chat, then the reviver arrives */}
           <Layer p={p} enter={-1} exit={0.42} fade={0.012} className="flex flex-col justify-end gap-1.5 pb-3">
             <Beat p={p} at={-1}>
-              <Timestamp>1 month later</Timestamp>
+              <Timestamp>{s.deadTs}</Timestamp>
             </Beat>
             <Beat p={p} at={-1}>
-              <ChatBubble sender={JAY}>Anyone alive here?</ChatBubble>
+              <ChatBubble sender={JAY}>{s.deadJay}</ChatBubble>
             </Beat>
             <Beat p={p} at={-1}>
               <div className="text-right text-[10.5px] text-muted pr-1 pb-2">
@@ -112,47 +117,45 @@ function Stage({ p }: { p: MotionValue<number> }) {
                 className="col-start-1 row-start-1 self-end"
                 style={{ opacity: openerOpacity, y: openerY }}
               >
-                <ChatBubble sender={REVIVER}>
-                  this group has more members than conversations 💀
-                </ChatBubble>
+                <ChatBubble sender={REVIVER}>{s.opener}</ChatBubble>
               </motion.div>
             </div>
 
             <Beat p={p} at={0.33} y={6}>
               <div className="pl-9 -mt-1">
                 <span className="px-1.5 py-px rounded-full bg-[#222226] border border-white/10 text-[10px] tracking-tight">
-                  💀 4&ensp;😂 3
+                  {s.openerReact}
                 </span>
               </div>
             </Beat>
 
             <Beat p={p} at={0.37}>
-              <ChatBubble sender={JAY}>LMAOOO who added this guy</ChatBubble>
+              <ChatBubble sender={JAY}>{s.jay}</ChatBubble>
             </Beat>
           </Layer>
 
           {/* The revival — the group is loud again */}
           <Layer p={p} enter={0.42} exit={0.76} fade={0.018} className="flex flex-col justify-end gap-1.5 pb-3">
             <Beat p={p} at={0.45}>
-              <ChatBubble sender={SAM}>yo what 😭😭</ChatBubble>
+              <ChatBubble sender={SAM}>{s.revival.sam}</ChatBubble>
             </Beat>
             <Beat p={p} at={0.49}>
-              <ChatBubble sender={TARA}>ok I&apos;m awake 😂</ChatBubble>
+              <ChatBubble sender={TARA}>{s.revival.tara}</ChatBubble>
             </Beat>
             <Beat p={p} at={0.53}>
-              <ChatBubble sender={REVIVER} reactions="🔥 6">
-                movie night. friday. I&apos;m picking. be scared.
+              <ChatBubble sender={REVIVER} reactions={s.revival.blaze.react}>
+                {s.revival.blaze.text}
               </ChatBubble>
             </Beat>
             <Beat p={p} at={0.57}>
-              <ChatBubble sender={DEV}>INNNN</ChatBubble>
+              <ChatBubble sender={DEV}>{s.revival.dev}</ChatBubble>
             </Beat>
             <Beat p={p} at={0.61}>
-              <ChatBubble me>not the group chat coming back to life 😭</ChatBubble>
+              <ChatBubble me>{s.revival.me}</ChatBubble>
             </Beat>
             <Beat p={p} at={0.66}>
-              <ChatBubble sender={ZOE} reactions="❤️ 5">
-                I missed this 🥹
+              <ChatBubble sender={ZOE} reactions={s.revival.zoe.react}>
+                {s.revival.zoe.text}
               </ChatBubble>
             </Beat>
           </Layer>
@@ -160,28 +163,28 @@ function Stage({ p }: { p: MotionValue<number> }) {
       </motion.div>
 
       {/* desktop side captions */}
-      <SideNote p={p} enter={0.05} exit={0.3} side="left" title="Then someone new joined.">
-        Not a person. Not a bot. A personality.
+      <SideNote p={p} enter={0.05} exit={0.3} side="left" title={s.notes[0].title}>
+        {s.notes[0].body}
       </SideNote>
-      <SideNote p={p} enter={0.44} exit={0.7} side="right" title="And the group woke up.">
-        One spark is all a dead chat needs.
+      <SideNote p={p} enter={0.44} exit={0.7} side="right" title={s.notes[1].title}>
+        {s.notes[1].body}
       </SideNote>
 
       {/* the revival spills out of the phone (desktop only) */}
       <FloatingNote p={p} at={0.46} x="16%" y="20%">
-        <span className="text-3xl">😭😭</span>
+        <span className="text-3xl">{s.floating[0]}</span>
       </FloatingNote>
       <FloatingNote p={p} at={0.52} x="72%" y="16%">
-        <NoteBubble>WHO ADDED HIM 💀</NoteBubble>
+        <NoteBubble>{s.floating[1]}</NoteBubble>
       </FloatingNote>
       <FloatingNote p={p} at={0.58} x="14%" y="68%">
-        <NoteBubble>the chat is BACK</NoteBubble>
+        <NoteBubble>{s.floating[2]}</NoteBubble>
       </FloatingNote>
       <FloatingNote p={p} at={0.64} x="75%" y="72%">
-        <span className="text-3xl">❤️‍🔥</span>
+        <span className="text-3xl">{s.floating[3]}</span>
       </FloatingNote>
       <FloatingNote p={p} at={0.69} x="66%" y="34%">
-        <NoteBubble>Blaze for president 😂</NoteBubble>
+        <NoteBubble>{s.floating[4]}</NoteBubble>
       </FloatingNote>
 
       {/* the reveal — the page's money shot gets the dramatic entrance */}

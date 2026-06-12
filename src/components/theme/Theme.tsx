@@ -36,6 +36,12 @@ const ThemeContext = createContext<{
   setTheme: (t: ThemeId) => void;
 }>({ theme: "night", setTheme: () => {} });
 
+/** Read the active theme — used by the pre-showcase scenes to pick
+ *  their story flavor. Everything after the showcase ignores it. */
+export function useTheme(): ThemeId {
+  return useContext(ThemeContext).theme;
+}
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<ThemeId>("night");
 
