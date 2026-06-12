@@ -37,8 +37,17 @@ function Stage({ p }: { p: MotionValue<number> }) {
     return `saturate(${1 - t * 0.7}) brightness(${1 - t * 0.45})`;
   });
   const phoneOpacity = useRamp(p, [0.68, 0.73], [1, 0]);
-  // Zoom in on the unanswered message, then recede as the chat dies.
-  const phoneScale = useRamp(p, [0.6, 0.66, 0.68, 0.73], [1, 1.06, 1.06, 0.96]);
+  // Entrance: the phone starts smaller and lower, stepping forward as the
+  // headline recedes — then zooms on the unanswered message, then recedes.
+  const phoneScale = useRamp(
+    p,
+    [0, 0.07, 0.6, 0.66, 0.68, 0.73],
+    [0.82, 1, 1, 1.06, 1.06, 0.96]
+  );
+  const phoneY = useTransform(
+    p,
+    (v) => `${ramp(v, [0, 0.07], [7, 0])}vh`
+  );
   // Desktop choreography: the phone drifts opposite each side caption,
   // with a slight lean — a character on a stage, not a statue.
   const phoneX = useTransform(p, (v) =>
@@ -61,7 +70,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 55% 45% at 50% 50%, rgba(255,255,255,0.045), transparent 70%)",
+            "radial-gradient(ellipse 55% 45% at 50% 50%, var(--stage-tint), transparent 70%)",
         }}
       />
       <motion.div
@@ -70,6 +79,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
           scale: phoneScale,
           filter: phoneFilter,
           x: phoneX,
+          y: phoneY,
           rotate: phoneRotate,
         }}
       >
@@ -170,13 +180,13 @@ function Stage({ p }: { p: MotionValue<number> }) {
 
       {/* first-screen value proposition — fades as the story takes over */}
       <motion.div
-        className="absolute top-16 sm:top-[7vh] inset-x-0 text-center px-6 z-10"
+        className="absolute top-[9vh] lg:top-[12vh] inset-x-0 text-center px-6 z-10"
         style={{ opacity: valueOpacity }}
       >
-        <h1 className="font-display text-lg sm:text-2xl lg:text-3xl font-semibold tracking-tight text-balance">
+        <h1 className="font-display text-2xl sm:text-3xl lg:text-5xl font-semibold tracking-tight text-balance">
           Personalities that join your group chat.
         </h1>
-        <p className="mt-1 text-xs sm:text-sm text-muted">
+        <p className="mt-3 text-sm lg:text-base text-muted">
           This is the story of every group chat. Scroll.
         </p>
       </motion.div>
@@ -208,7 +218,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
 
       {/* scroll hint */}
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-muted text-xs tracking-widest uppercase"
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-muted/80 text-xs tracking-widest uppercase"
         style={{ opacity: hintOpacity }}
       >
         scroll

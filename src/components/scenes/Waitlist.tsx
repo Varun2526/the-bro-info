@@ -134,12 +134,12 @@ export default function Waitlist() {
       id="waitlist"
       className="relative min-h-dvh flex flex-col items-center justify-center px-6 text-center"
     >
-      {/* soft brand glow behind the CTA */}
+      {/* soft glow behind the CTA, tinted by the active theme */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 60% 45% at 50% 55%, rgba(191,140,255,0.13), transparent 70%)",
+            "radial-gradient(ellipse 60% 45% at 50% 55%, var(--stage-strong), transparent 70%)",
         }}
       />
 

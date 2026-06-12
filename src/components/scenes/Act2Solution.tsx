@@ -63,7 +63,7 @@ function Stage({ p }: { p: MotionValue<number> }) {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 55% 45% at 50% 50%, rgba(191,140,255,0.05), transparent 70%)",
+            "radial-gradient(ellipse 55% 45% at 50% 50%, var(--stage-tint), transparent 70%)",
         }}
       />
       <motion.div

@@ -3,6 +3,7 @@ import Act1Problem from "@/components/scenes/Act1Problem";
 import Act2Solution from "@/components/scenes/Act2Solution";
 import ScrollProgress from "@/components/ScrollProgress";
 import StickyCta from "@/components/StickyCta";
+import { Atmosphere, ThemeProvider, ThemeSwitcher } from "@/components/theme/Theme";
 
 /* Below-the-fold scenes are code-split: they keep SSR (the HTML is in
    the initial response for SEO) but their JS loads in separate chunks,
@@ -17,7 +18,12 @@ const Footer = dynamic(() => import("@/components/Footer"));
 
 export default function Home() {
   return (
-    <main className="bg-ink">
+    <main>
+      {/* living background + theme system (decorative only) */}
+      <ThemeProvider>
+        <Atmosphere />
+        <ThemeSwitcher />
+      </ThemeProvider>
       {/* keyboard users can skip the 20-screen story */}
       <a
         href="#waitlist"

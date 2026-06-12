@@ -34,15 +34,76 @@
   --font-display: var(--font-space-grotesk);
 }
 
+/* ---------- atmosphere themes ----------
+   Decorative only: backgrounds, glows, stage lights. Content never
+   changes. Default (no attribute) = 🌙 Late Night Squad. */
+:root,
+html[data-theme="night"] {
+  --atmo-base: #0a0a12;
+  --atmo-glow-1: rgba(80, 100, 220, 0.11);
+  --atmo-glow-2: rgba(191, 140, 255, 0.07);
+  --stage-tint: rgba(130, 150, 255, 0.05);
+  --stage-strong: rgba(191, 140, 255, 0.13);
+}
+html[data-theme="chaos"] {
+  --atmo-base: #120a13;
+  --atmo-glow-1: rgba(255, 70, 160, 0.11);
+  --atmo-glow-2: rgba(255, 150, 40, 0.08);
+  --stage-tint: rgba(255, 90, 170, 0.05);
+  --stage-strong: rgba(255, 122, 182, 0.13);
+}
+html[data-theme="wholesome"] {
+  --atmo-base: #0d0c12;
+  --atmo-glow-1: rgba(160, 130, 230, 0.1);
+  --atmo-glow-2: rgba(80, 200, 180, 0.07);
+  --stage-tint: rgba(170, 150, 230, 0.05);
+  --stage-strong: rgba(170, 150, 230, 0.13);
+}
+html[data-theme="roast"] {
+  --atmo-base: #120c09;
+  --atmo-glow-1: rgba(255, 120, 40, 0.11);
+  --atmo-glow-2: rgba(255, 70, 70, 0.07);
+  --stage-tint: rgba(255, 130, 70, 0.055);
+  --stage-strong: rgba(255, 140, 80, 0.13);
+}
+
 html {
-  background: var(--ink);
+  background: var(--atmo-base, var(--ink));
 }
 
 body {
-  background: var(--ink);
+  background: var(--atmo-base, var(--ink));
   color: var(--paper);
   font-family: var(--font-inter), system-ui, sans-serif;
   overflow-x: hidden;
+  transition: background-color 650ms ease;
+}
+
+/* slow ambient drift for atmosphere glows */
+@keyframes atmo-drift {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(2.5vw, -3vh); }
+  100% { transform: translate(-2vw, 2vh); }
+}
+@keyframes atmo-pulse {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.55; }
+}
+@keyframes atmo-rise {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-9vh); }
+}
+.atmo-drift { animation: atmo-drift 60s ease-in-out infinite alternate; }
+.atmo-pulse { animation: atmo-pulse 5s ease-in-out infinite; }
+.atmo-rise { animation: atmo-rise 18s linear infinite alternate; }
+
+@media (prefers-reduced-motion: reduce) {
+  .atmo-drift, .atmo-pulse, .atmo-rise {
+    animation: none;
+  }
+  body {
+    transition: none;
+  }
 }
 
 ::selection {
