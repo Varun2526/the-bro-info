@@ -23,9 +23,10 @@ export default function CreatorMoment() {
           <br />
           <span className="text-paper/60">Share it with the world.</span>
         </h2>
-        <p className="mt-4 text-sm sm:text-base text-paper/60 max-w-md mx-auto">
-          Anyone will be able to create a Bro, publish it, and watch it
-          spread from group to group.
+        <p className="mt-4 text-sm sm:text-base text-paper/60 max-w-lg mx-auto">
+          The one who never forgets a birthday. The roast king. The fantasy
+          league instigator. The travel planner who actually gets everyone to
+          reply. Imagine the Bro your group is missing — then build it.
         </p>
       </motion.div>
     </section>

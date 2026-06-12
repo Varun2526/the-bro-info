@@ -11,6 +11,7 @@ import {
 import { track } from "@vercel/analytics";
 import { PinnedScene, useRamp } from "@/components/scroll/Scrub";
 import { BROS, Bro } from "@/components/chat/cast";
+import { BroBadge } from "@/components/chat/ChatBubble";
 
 /** Hover (or tap) a card and the Bro answers — you meet a personality,
  *  you don't read a spec sheet. */
@@ -54,10 +55,11 @@ function BroCard({ bro }: { bro: Bro }) {
       </div>
       <div className="relative p-5 pt-4">
         <h3
-          className="font-display text-2xl font-semibold tracking-tight"
+          className="font-display text-2xl font-semibold tracking-tight flex items-center"
           style={{ color: bro.color }}
         >
           {bro.name}
+          <BroBadge color={bro.color} />
         </h3>
         <p className="text-sm text-paper/60 mt-1 min-h-10">{bro.vibe}</p>
         <div className="mt-3 px-3 py-2 rounded-2xl rounded-bl-md bg-white/8 text-[13px] leading-snug">
@@ -151,6 +153,11 @@ function Stage({ p }: { p: MotionValue<number> }) {
         <h2 className="font-display text-3xl sm:text-5xl font-semibold tracking-tight">
           Six personalities. Zero chill.
         </h2>
+        <p className="mt-4 text-sm sm:text-base text-paper/60 max-w-md">
+          Bros aren&apos;t chatbots. They&apos;re personalities built to{" "}
+          <span className="text-paper">join</span> conversations — not replace
+          them.
+        </p>
       </motion.div>
 
       <div ref={viewportRef} className="overflow-hidden">

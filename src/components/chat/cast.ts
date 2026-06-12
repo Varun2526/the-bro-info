@@ -34,7 +34,7 @@ export const BROS: Bro[] = [
     id: "trouble",
     name: "Blaze",
     color: "#bf8cff",
-    vibe: "Chaos agent. Roasts everyone. Revives dead group chats.",
+    vibe: "Pure chaos. Roasts everyone. Revives dead group chats.",
     line: "this group has more members than conversations 💀",
     reply: "and I'm about to fix that. buckle up. 😈",
   },

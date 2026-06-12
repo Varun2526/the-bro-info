@@ -150,6 +150,9 @@ export default function Waitlist() {
         transition={{ duration: 0.7, ease: "easeOut" }}
         className="relative max-w-3xl"
       >
+        <p className="text-sm uppercase tracking-[0.25em] text-brand mb-5">
+          The best groups find their way back.
+        </p>
         <h2 className="font-display text-4xl sm:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.05] text-balance">
           Your group chat is about to get a new member.
         </h2>

@@ -44,6 +44,9 @@ export type Act1Script = {
 
 export type Act2Script = {
   group: string;
+  /** The personality who revives THIS theme's group. Same story beat,
+   *  different friend archetype walks in. */
+  reviver: { name: string; color: string };
   deadTs: string;
   deadJay: string;
   opener: string;
@@ -52,7 +55,7 @@ export type Act2Script = {
   revival: {
     sam: string;
     tara: string;
-    blaze: Msg; // has reaction
+    blaze: Msg; // the reviver's line — has reaction
     dev: string;
     me: string;
     zoe: Msg; // has reaction
@@ -147,11 +150,11 @@ export const ACT1: Record<ThemeId, Act1Script> = {
     },
     b2: {
       sam: "genuinely grateful for you guys",
-      jay: "we should do a proper dinner soon",
-      me: "i'm in. been a rough month tbh",
+      jay: "we should finally do that goa trip we keep talking about",
+      me: "i'm in. been a rough month honestly",
       tara: "wait you good? 💛",
       dev: "we got you. always.",
-      zoe: { text: "this is why i love this group", react: "❤️ 5" },
+      zoe: { text: "ok but goa for real this time 🥹", react: "❤️ 5" },
     },
     slow: {
       t1: "1 week later",
@@ -210,20 +213,22 @@ export const ACT1: Record<ThemeId, Act1Script> = {
 export const ACT2: Record<ThemeId, Act2Script> = {
   night: {
     group: "the 2am crew 🌙",
+    reviver: { name: "Luna", color: "#8ea2ff" },
     deadTs: "2 months later",
     deadJay: "you all still awake out there?",
-    opener: "it's 1am. perfect time for a terrible idea. who's in",
-    openerReact: "👀 4   😂 3",
-    jay: "ok i'm awake now",
+    opener:
+      "okay but are we really pretending we don't know why those two stopped texting 👀 who's still up",
+    openerReact: "👀 5   😭 3",
+    jay: "ok i'm awake. explain. immediately.",
     revival: {
-      sam: "lmao no way he's already starting",
-      tara: "ok i'm up i'm up",
-      blaze: { text: "2am call. friday. no excuses. i'll wake you all up myself", react: "🔥 6" },
-      dev: "i'm in",
-      me: "not the gc reviving at 1am 😭",
+      sam: "luna you can NOT just drop that and go quiet",
+      tara: "i need the full lore. now.",
+      blaze: { text: "2am. everyone's a little too honest. drop the lore, i'll start 🌙", react: "🌙 6" },
+      dev: "i'm in. spilling everything",
+      me: "not the gc waking up at 1am for gossip 😭",
       zoe: { text: "missed this. missed you guys 🌙", react: "❤️ 5" },
     },
-    floating: ["😭", "wait he's right", "i'm up i'm up", "🌙", "missed this fr"],
+    floating: ["👀", "drop the lore", "wait WHAT", "🌙", "missed this fr"],
     notes: [
       { title: "Then someone showed up.", body: "At the exact hour the group used to be alive." },
       { title: "And it felt like 2am again.", body: "The good kind." },
@@ -232,20 +237,22 @@ export const ACT2: Record<ThemeId, Act2Script> = {
 
   chaos: {
     group: "the chaos gc 💀",
+    reviver: { name: "Rocky", color: "#ff5c8a" },
     deadTs: "1 month later",
     deadJay: "is this thing on 💀",
-    opener: "found this group in the gc graveyard. unacceptable. dropping a meme every hour till someone reacts",
+    opener:
+      "found this gc in the graveyard. unacceptable. starting a challenge — no one asked",
     openerReact: "💀 7   😂 4",
     jay: "LMAOOO who added this menace",
     revival: {
       sam: "oh it's OVER for our notifications",
       tara: "he already renamed the gc 😭",
-      blaze: { text: "new rule: last to react does the coffee run. starting NOW", react: "🔥 9" },
+      blaze: { text: "247 unread? rookie numbers. last to react buys coffee. GO", react: "🔥 9" },
       dev: "INNN",
-      me: "247 unread incoming i can feel it",
+      me: "i can feel the notifications already 💀",
       zoe: { text: "the chaos is BACK", react: "😂 7" },
     },
-    floating: ["💀", "WHO ADDED HIM", "247 incoming", "🔥🔥", "it's OVER for us"],
+    floating: ["💀", "WHO ADDED HIM", "247? rookie numbers", "🔥🔥", "it's OVER for us"],
     notes: [
       { title: "Then chaos walked back in.", body: "Uninvited. Unhinged. Perfect." },
       { title: "And the notifications never stopped.", body: "The way it should be." },
@@ -254,20 +261,23 @@ export const ACT2: Record<ThemeId, Act2Script> = {
 
   wholesome: {
     group: "the besties 💛",
+    reviver: { name: "Sunny", color: "#ffc24d" },
     deadTs: "2 months later",
     deadJay: "thinking of you all. still here if anyone needs",
-    opener: "hey. group's been quiet, and quiet usually means people are going through it. so — how's everyone ACTUALLY doing 💛",
+    opener:
+      "hey. group's been quiet, and quiet usually means someone's going through it. did everyone eat today? 💛",
     openerReact: "🥹 5   💛 4",
     jay: "ok i'm not crying you're crying",
     revival: {
-      sam: "honestly? not great. but better seeing this",
-      tara: "ok we ARE doing that dinner. i'm booking it",
-      blaze: { text: "saturday. i'll remind everyone. nobody slips through this time", react: "💛 7" },
+      sam: "honestly? not a great week. but better seeing this",
+      tara: "ok we are ACTUALLY doing the goa trip",
+      // memory callback — Sunny remembers the Goa plan from earlier
+      blaze: { text: "dinner saturday first. i'll text everyone the day-of so it doesn't become goa 2.0 💛", react: "💛 7" },
       dev: "i'll be there",
-      me: "missed feeling like this 🥹",
+      me: "wait it remembered goa 🥹",
       zoe: { text: "the group's back. the real one", react: "❤️ 6" },
     },
-    floating: ["🥹", "i'm not crying", "we're doing the dinner", "💛", "missed this"],
+    floating: ["🥹", "did you eat??", "goa for REAL this time", "💛", "missed this"],
     notes: [
       { title: "Then someone made space again.", body: "For the question nobody else was asking." },
       { title: "And the safe place came back.", body: "One “how are you really” at a time." },
@@ -276,15 +286,17 @@ export const ACT2: Record<ThemeId, Act2Script> = {
 
   roast: {
     group: "the roast pit 🔥",
+    reviver: { name: "Blaze", color: "#bf8cff" },
     deadTs: "1 month later",
     deadJay: "even the roasts stopped 💀",
-    opener: "scrolled the history. weak roasts, worse comebacks, and whatever sam's 2019 haircut was. i can fix this. allegedly",
+    opener:
+      "scrolled the history. weak roasts, worse comebacks, and whatever sam's 2019 haircut was. this gc got soft while i was gone",
     openerReact: "💀 8   😂 5",
     jay: "LMAOOO not him opening with the 2019 haircut",
     revival: {
       sam: "i got added to my OWN roast group???",
       tara: "he did his research 😭 i'm scared",
-      blaze: { text: "new rule: weakest comeback of the week buys lunch. sam you're already losing", react: "🔥 9" },
+      blaze: { text: "new rule: weakest comeback of the week buys lunch. sam, you're already losing", react: "🔥 9" },
       dev: "INNN this is the content i signed up for",
       me: "not the gc going feral again 😭",
       zoe: { text: "we're SO back", react: "💀 6" },

@@ -2,6 +2,20 @@ import { ReactNode } from "react";
 
 export type Sender = { name: string; color: string };
 
+/** The category marker. A Bro is a personality, not a bot — this small,
+ *  consistent badge says so everywhere a Bro appears, no explanation
+ *  needed. Matches the product UI badge styling. */
+export function BroBadge({ color = "#bf8cff" }: { color?: string }) {
+  return (
+    <span
+      className="align-middle ml-1.5 px-1.5 py-px rounded-full text-[8.5px] font-semibold uppercase tracking-wider"
+      style={{ background: `${color}26`, color }}
+    >
+      Bro
+    </span>
+  );
+}
+
 export function Avatar({ sender }: { sender: Sender }) {
   return (
     <div
@@ -17,11 +31,13 @@ export function ChatBubble({
   sender,
   me = false,
   reactions,
+  bro = false,
   children,
 }: {
   sender?: Sender;
   me?: boolean;
   reactions?: string;
+  bro?: boolean;
   children: ReactNode;
 }) {
   return (
@@ -36,6 +52,7 @@ export function ChatBubble({
             style={{ color: sender.color }}
           >
             {sender.name}
+            {bro && <BroBadge color={sender.color} />}
           </div>
         )}
         <div

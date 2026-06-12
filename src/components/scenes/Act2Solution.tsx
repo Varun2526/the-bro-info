@@ -26,16 +26,18 @@ import {
   TypingDots,
   SystemNote,
 } from "@/components/chat/ChatBubble";
-import { JAY, SAM, TARA, DEV, ZOE, MEMBERS, REVIVER } from "@/components/chat/cast";
+import { JAY, SAM, TARA, DEV, ZOE, MEMBERS } from "@/components/chat/cast";
 import { useTheme } from "@/components/theme/Theme";
 import { ACT2 } from "./chatScripts";
 
 function Stage({ p: rawP }: { p: MotionValue<number> }) {
   // Pace raw scroll into story progress that dwells on the key beats.
   const p = usePacedProgress(rawP, ACT2_HOLDS);
-  // Theme changes only the words. Blaze, the reveal, and every timing
-  // below stay identical — the showcase downstream shows the same Blaze.
+  // Theme changes the words AND who walks in: each theme's group is
+  // revived by a different friend archetype (Blaze/Rocky/Luna/Sunny).
+  // Every timing and the "Meet Bro." reveal stay identical.
   const s = ACT2[useTheme()];
+  const reviver = s.reviver;
   // Color floods back into the chat as the reviver brings it back.
   const phoneFilter = useTransform(p, (v) => {
     const t = Math.min(1, Math.max(0, (v - 0.16) / 0.3));
@@ -104,8 +106,11 @@ function Stage({ p: rawP }: { p: MotionValue<number> }) {
 
             <Beat p={p} at={0.06} y={8}>
               <SystemNote>
-                <span className="px-3 py-1 rounded-full bg-brand/15 text-brand font-medium">
-                  ⚡ {REVIVER.name} joined the group
+                <span
+                  className="px-3 py-1 rounded-full font-medium"
+                  style={{ background: `${reviver.color}26`, color: reviver.color }}
+                >
+                  ⚡ {reviver.name} joined the group
                 </span>
               </SystemNote>
             </Beat>
@@ -116,7 +121,7 @@ function Stage({ p: rawP }: { p: MotionValue<number> }) {
                 className="col-start-1 row-start-1 self-end"
                 style={{ opacity: dotsOpacity }}
               >
-                <ChatBubble sender={REVIVER}>
+                <ChatBubble sender={reviver} bro>
                   <TypingDots />
                 </ChatBubble>
               </motion.div>
@@ -124,7 +129,9 @@ function Stage({ p: rawP }: { p: MotionValue<number> }) {
                 className="col-start-1 row-start-1 self-end"
                 style={{ opacity: openerOpacity, y: openerY }}
               >
-                <ChatBubble sender={REVIVER}>{s.opener}</ChatBubble>
+                <ChatBubble sender={reviver} bro>
+                  {s.opener}
+                </ChatBubble>
               </motion.div>
             </div>
 
@@ -150,7 +157,7 @@ function Stage({ p: rawP }: { p: MotionValue<number> }) {
               <ChatBubble sender={TARA}>{s.revival.tara}</ChatBubble>
             </Beat>
             <Beat p={p} at={0.53}>
-              <ChatBubble sender={REVIVER} reactions={s.revival.blaze.react}>
+              <ChatBubble sender={reviver} reactions={s.revival.blaze.react} bro>
                 {s.revival.blaze.text}
               </ChatBubble>
             </Beat>
