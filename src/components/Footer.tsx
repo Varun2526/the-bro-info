@@ -4,7 +4,7 @@ import { CONTACT_EMAIL } from "@/lib/site";
 export default function Footer() {
   return (
     <footer className="border-t border-white/8 px-6 sm:px-12 py-12">
-      <div className="max-w-5xl mx-auto flex flex-col sm:flex-row sm:items-start justify-between gap-10">
+      <div className="w-full flex flex-col sm:flex-row sm:items-start justify-between gap-10">
         <div>
           <div className="font-display font-bold text-xl tracking-tight">
             Bro
@@ -75,7 +75,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto mt-10 pt-6 border-t border-white/6 text-xs text-muted/70">
+      <div className="w-full mt-10 pt-6 border-t border-white/6 text-xs text-muted/70">
         © {new Date().getFullYear()} Bro. All rights reserved.
       </div>
     </footer>
